@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 894fbe34ca055884bb4f2b22dec99fac
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Juicy Fruity Plain
+  fontNames:
+  - Juicy Fruity Plain
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 73bd075f14a192f409ee01127db7b7d6, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

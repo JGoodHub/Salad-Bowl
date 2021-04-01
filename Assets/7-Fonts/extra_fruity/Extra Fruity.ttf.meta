@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: d0b8974259a160e479e6d2b7707912a7
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Extra Fruity
+  fontNames:
+  - Extra Fruity
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 900242494a363644c936be8a36754d5d, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
