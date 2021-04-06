@@ -8,12 +8,14 @@ public class UnityTileDataEvent : UnityEvent<TileData> { }
 
 public class TileLogic : Singleton<TileLogic>
 {
-
     private List<TileData> tileChain;
 
+    // Events for add and remove
     public UnityTileDataEvent OnTileAddedToChain;
     public UnityTileDataEvent OnTileRemovedFromChain;
 
+    // Key start and stop events
+    public UnityTileDataEvent OnTileChainStarted;
     public UnityEvent OnTileChainCancelled;
     public UnityEvent OnTileChainCompleted;
 
@@ -22,11 +24,12 @@ public class TileLogic : Singleton<TileLogic>
         tileChain = new List<TileData>();
     }
 
-
     // Start a new tile chain with the passed tile
     public void StartNewChainFromTile(TileData tile)
     {
-        tileChain = new List<TileData>();
+        ClearChain();
+
+        OnTileChainStarted?.Invoke(tile);
 
         AddTileToChain(tile);
     }
@@ -42,7 +45,7 @@ public class TileLogic : Singleton<TileLogic>
         {
             if (tileChain.Count == 0 || tileChain[tileChain.Count - 1].adjacents.Contains(tile))
             {
-                if (tileChain[tileChain.Count - 1].color != tile.color)
+                if (tileChain.Count == 0 || tileChain[tileChain.Count - 1].color == tile.color)
                 {
                     tileChain.Add(tile);
                     tile.SetSelectedState(true);
@@ -82,8 +85,11 @@ public class TileLogic : Singleton<TileLogic>
                 }
                 else
                 {
-                    tileChain[i].SetSelectedState(false);
+                    TileData removedTile = tileChain[i];
+                    removedTile.SetSelectedState(false);
                     tileChain.RemoveAt(i);
+
+                    OnTileRemovedFromChain?.Invoke(removedTile);
                 }
             }
         }

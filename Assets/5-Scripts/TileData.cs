@@ -48,7 +48,6 @@ public class TileData : MonoBehaviour
             }
             else
             {
-                Debug.Log("ADD");
                 TileLogic.Instance.AddTileToChain(this);
             }
         }

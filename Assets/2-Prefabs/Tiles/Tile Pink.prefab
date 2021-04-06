@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d24142a8886b4f44dae8ccfc4bb861bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colour: 5
+  color: 5
   selected: 0
   adjacents: []
   OnTileInitalise:
