@@ -52,10 +52,13 @@ public class TileGenerator : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                for (int yOff = -1; yOff < 3; yOff++)
+                for (int yOff = -1; yOff <= 1; yOff++)
                 {
-                    for (int xOff = -1; xOff < 3; xOff++)
+                    for (int xOff = -1; xOff <= 1; xOff++)
                     {
+                        if (xOff == 0 && yOff == 0)
+                            continue;
+
                         if (y + yOff >= 0 && y + yOff < height && x + xOff >= 0 && x + xOff < width)
                         {
                             tileGrid[x, y].adjacents.Add(tileGrid[x + xOff, y + yOff]);
