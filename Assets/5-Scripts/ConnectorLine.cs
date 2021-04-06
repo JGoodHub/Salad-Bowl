@@ -23,7 +23,7 @@ public class ConnectorLine : Singleton<ConnectorLine>
 
     private void SetLineColour(TileData tile)
     {
-        SetLineColour(ColorPalette.ConvertTileColourToRGB(tile.color, true));
+        SetLineColour(ColorPalette.Instance.ConvertTileColourToRGB(tile.color, true));
     }
 
     public void SetLineColour(Color color)

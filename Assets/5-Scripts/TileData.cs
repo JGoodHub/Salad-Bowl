@@ -8,22 +8,24 @@ public class TileData : MonoBehaviour
 
 
     // Tile state
-    public ColorPalette.TileColor color;
+    public ColorPalette.TileType color;
     public bool selected;
 
     public List<TileData> adjacents = new List<TileData>();
 
 
     // Tile events
-    public UnityEvent OnTileInitalise;
+    public UnityTileDataEvent OnTileInitalise;
 
-    public UnityEvent OnTileSelected;
-    public UnityEvent OnTileUnselected;
+    public UnityTileDataEvent OnTileSelected;
+    public UnityTileDataEvent OnTileUnselected;
 
+    public UnityTileDataEvent OnTileConsumed;
+    public UnityTileDataEvent OnTileDestroyed;
 
     private void Start()
     {
-        OnTileInitalise?.Invoke();
+        OnTileInitalise?.Invoke(this);
     }
 
     // Start a new chain on this tile
@@ -66,13 +68,19 @@ public class TileData : MonoBehaviour
 
         if (selected)
         {
-            Debug.Log(gameObject.name + " Selected");
-            OnTileSelected?.Invoke();
+            OnTileSelected?.Invoke(this);
         }
         else
         {
-            OnTileUnselected?.Invoke();
+            OnTileUnselected?.Invoke(this);
         }
     }
+
+    public void ConsumeTile()
+    {
+        OnTileConsumed?.Invoke(this);
+    }
+
+
 
 }

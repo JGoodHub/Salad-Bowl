@@ -107,11 +107,14 @@ public class TileLogic : Singleton<TileLogic>
         }
         else
         {
-            ClearChain();
-
-            // ...
+            for (int i = 0; i < tileChain.Count; i++)
+            {
+                tileChain[i].Invoke("ConsumeTile", i * 0.125f);
+            }
 
             OnTileChainCompleted?.Invoke();
+
+            ClearChain();
         }
     }
 

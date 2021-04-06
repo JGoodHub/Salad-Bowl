@@ -11,6 +11,7 @@ public class TileGenerator : MonoBehaviour
     public float spacing;
 
     public int seed;
+    public bool randomSeed = true;
 
     public GameObject[] tilePrefabs;
     public Transform tilesParent;
@@ -26,6 +27,9 @@ public class TileGenerator : MonoBehaviour
 
     private void Start()
     {
+        if (randomSeed)
+            seed = System.DateTime.Now.GetHashCode();
+
         Random.InitState(seed);
 
         // Clear any existing tiles
