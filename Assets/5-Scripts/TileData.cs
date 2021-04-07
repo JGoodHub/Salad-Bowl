@@ -6,11 +6,22 @@ using UnityEngine.Events;
 public class TileData : MonoBehaviour
 {
 
+    [System.Serializable]
+    public enum Type
+    {
+        RED,
+        ORANGE,
+        YELLOW,
+        GREEN,
+        BLUE,
+        PINK
+    }
+
 
     // Tile state
-    public ColorPalette.TileType type;
+    public Type type;
     public bool selected;
-    public Vector2Int gridPosition;
+    public Vector2Int gridRef;
 
     public List<TileData> adjacents = new List<TileData>();
 
@@ -35,12 +46,12 @@ public class TileData : MonoBehaviour
     // Start a new chain on this tile
     private void OnMouseDown()
     {
-        TileLogic.Instance.StartNewChainFromTile(this);
+        TileChainController.Instance.StartNewChainFromTile(this);
     }
 
     private void OnMouseUp()
     {
-        TileLogic.Instance.CommitChain();
+        TileChainController.Instance.CommitChain();
     }
 
     // Add or remove this tile based on its selected status
@@ -50,11 +61,11 @@ public class TileData : MonoBehaviour
         {
             if (selected)
             {
-                TileLogic.Instance.TrimChainToTile(this);
+                TileChainController.Instance.TrimChainToTile(this);
             }
             else
             {
-                TileLogic.Instance.AddTileToChain(this);
+                TileChainController.Instance.AddTileToChain(this);
             }
         }
     }
@@ -92,9 +103,14 @@ public class TileData : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void MoveToGridPosition(Vector2Int newPosition)
+    public void MoveToGridRef(int x, int y)
     {
-        if (gridPosition.Equals(newPosition))
+        MoveToGridRef(new Vector2Int(x, y));
+    }
+
+    public void MoveToGridRef(Vector2Int newPosition)
+    {
+        if (gridRef.Equals(newPosition))
             return;
 
         StopAllCoroutines();
@@ -103,13 +119,13 @@ public class TileData : MonoBehaviour
 
     private IEnumerator MoveToGridPositionCoroutine(Vector2Int newGridPos)
     {
-        Vector3 newWorldPosition = TileGrid.Instance.GridToWorldSpace(newGridPos);
+        Vector3 newWorldPosition = TileGridController.Instance.GridToWorldSpace(newGridPos);
         while (transform.position.Equals(newWorldPosition) == false)
         {
             transform.position = Vector3.MoveTowards(transform.position, newWorldPosition, fallSpeed * Time.deltaTime);
             yield return null;
         }
 
-        gridPosition = newGridPos;
+        gridRef = newGridPos;
     }
 }

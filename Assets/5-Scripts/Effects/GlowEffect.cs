@@ -15,9 +15,9 @@ public class GlowEffect : MonoBehaviour
         SetEffectColour(GetComponentInParent<TileData>().type);
     }
 
-    public void SetEffectColour(ColorPalette.TileType tileColor)
+    public void SetEffectColour(TileData.Type tileType)
     {
-        Color colorRGB = ColorPalette.Instance.ConvertTileColourToRGB(tileColor, true);
+        Color colorRGB = ColorPalette.Instance.ConvertTileTypeToRGB(tileType, true);
 
         glowRenderer.color = colorRGB;
         ParticleSystem.MainModule mainModule = glowParticleSys.main;

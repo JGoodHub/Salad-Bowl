@@ -13,17 +13,17 @@ public class ConnectorLine : Singleton<ConnectorLine>
         linePositions = new List<Vector3>();
         ResetLine();
 
-        TileLogic.Instance.OnTileAddedToChain.AddListener(AddTileToLine);
-        TileLogic.Instance.OnTileRemovedFromChain.AddListener(RemoveTileFromLine);
+        TileChainController.Instance.OnTileAddedToChain.AddListener(AddTileToLine);
+        TileChainController.Instance.OnTileRemovedFromChain.AddListener(RemoveTileFromLine);
 
-        TileLogic.Instance.OnTileChainStarted.AddListener(SetLineColour);
-        TileLogic.Instance.OnTileChainCancelled.AddListener(ResetLine);
-        TileLogic.Instance.OnTileChainConsumed.AddListener(ResetLine);
+        TileChainController.Instance.OnTileChainStarted.AddListener(SetLineColour);
+        TileChainController.Instance.OnTileChainCancelled.AddListener(ResetLine);
+        TileChainController.Instance.OnTileChainConsumed.AddListener(ResetLine);
     }
 
     private void SetLineColour(TileData tile)
     {
-        SetLineColour(ColorPalette.Instance.ConvertTileColourToRGB(tile.type, true));
+        SetLineColour(ColorPalette.Instance.ConvertTileTypeToRGB(tile.type, true));
     }
 
     public void SetLineColour(Color color)
