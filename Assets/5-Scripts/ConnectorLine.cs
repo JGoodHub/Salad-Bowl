@@ -18,12 +18,12 @@ public class ConnectorLine : Singleton<ConnectorLine>
 
         TileLogic.Instance.OnTileChainStarted.AddListener(SetLineColour);
         TileLogic.Instance.OnTileChainCancelled.AddListener(ResetLine);
-        TileLogic.Instance.OnTileChainCompleted.AddListener(ResetLine);
+        TileLogic.Instance.OnTileChainConsumed.AddListener(ResetLine);
     }
 
     private void SetLineColour(TileData tile)
     {
-        SetLineColour(ColorPalette.Instance.ConvertTileColourToRGB(tile.color, true));
+        SetLineColour(ColorPalette.Instance.ConvertTileColourToRGB(tile.type, true));
     }
 
     public void SetLineColour(Color color)

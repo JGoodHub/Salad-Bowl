@@ -238,9 +238,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d24142a8886b4f44dae8ccfc4bb861bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 2
+  type: 2
   selected: 0
+  gridPosition: {x: 0, y: 0}
   adjacents: []
+  fallSpeed: 5
   OnTileInitalise:
     m_PersistentCalls:
       m_Calls:

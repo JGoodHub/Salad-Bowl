@@ -8,11 +8,15 @@ public class TileData : MonoBehaviour
 
 
     // Tile state
-    public ColorPalette.TileType color;
+    public ColorPalette.TileType type;
     public bool selected;
+    public Vector2Int gridPosition;
 
     public List<TileData> adjacents = new List<TileData>();
 
+
+    // Moving parameters
+    public float fallSpeed;
 
     // Tile events
     public UnityTileDataEvent OnTileInitalise;
@@ -81,6 +85,31 @@ public class TileData : MonoBehaviour
         OnTileConsumed?.Invoke(this);
     }
 
+    public void DestroyTile()
+    {
+        OnTileDestroyed?.Invoke(this);
 
+        Destroy(gameObject);
+    }
 
+    public void MoveToGridPosition(Vector2Int newPosition)
+    {
+        if (gridPosition.Equals(newPosition))
+            return;
+
+        StopAllCoroutines();
+        StartCoroutine(MoveToGridPositionCoroutine(newPosition));
+    }
+
+    private IEnumerator MoveToGridPositionCoroutine(Vector2Int newGridPos)
+    {
+        Vector3 newWorldPosition = TileGrid.Instance.GridToWorldSpace(newGridPos);
+        while (transform.position.Equals(newWorldPosition) == false)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, newWorldPosition, fallSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        gridPosition = newGridPos;
+    }
 }

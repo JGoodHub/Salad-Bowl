@@ -12,7 +12,7 @@ public class SplatEffect : MonoBehaviour
         Debug.Assert(spriteRen != null, "Sprite Renderer is null");
         Debug.Assert(animator != null, "Animator is null");
 
-        SetEffectColour(GetComponentInParent<TileData>().color);
+        SetEffectColour(GetComponentInParent<TileData>().type);
     }
 
     public void SetEffectColour(ColorPalette.TileType tileColor)

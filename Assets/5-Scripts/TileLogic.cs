@@ -9,6 +9,8 @@ public class UnityTileDataEvent : UnityEvent<TileData> { }
 public class TileLogic : Singleton<TileLogic>
 {
     private List<TileData> tileChain;
+    public float tileConsumptionInterval = 0.125f;
+    public float tileDestructionDelay = 0.8f;
 
     // Events for add and remove
     public UnityTileDataEvent OnTileAddedToChain;
@@ -17,7 +19,8 @@ public class TileLogic : Singleton<TileLogic>
     // Key start and stop events
     public UnityTileDataEvent OnTileChainStarted;
     public UnityEvent OnTileChainCancelled;
-    public UnityEvent OnTileChainCompleted;
+    public UnityEvent OnTileChainConsumed;
+    public UnityEvent OnTileChainDestroyed;
 
     private void Start()
     {
@@ -45,26 +48,14 @@ public class TileLogic : Singleton<TileLogic>
         {
             if (tileChain.Count == 0 || tileChain[tileChain.Count - 1].adjacents.Contains(tile))
             {
-                if (tileChain.Count == 0 || tileChain[tileChain.Count - 1].color == tile.color)
+                if (tileChain.Count == 0 || tileChain[tileChain.Count - 1].type == tile.type)
                 {
                     tileChain.Add(tile);
                     tile.SetSelectedState(true);
 
                     OnTileAddedToChain?.Invoke(tile);
                 }
-                else
-                {
-                    Debug.Log("Tried adding a tile that wasn't the same colour as the last tile in the chain");
-                }
             }
-            else
-            {
-                Debug.Log("Tried adding a tile that wasn't adjacent to the last tile in the chain");
-            }
-        }
-        else
-        {
-            Debug.Log("Tile chain already contains that tile");
         }
 
     }
@@ -109,13 +100,29 @@ public class TileLogic : Singleton<TileLogic>
         {
             for (int i = 0; i < tileChain.Count; i++)
             {
-                tileChain[i].Invoke("ConsumeTile", i * 0.125f);
+                if (tileConsumptionInterval == 0)
+                {
+                    tileChain[i].ConsumeTile();
+                    tileChain[i].DestroyTile();
+                }
+                else
+                {
+                    tileChain[i].Invoke("ConsumeTile", i * tileConsumptionInterval);
+                    tileChain[i].Invoke("DestroyTile", (i * tileConsumptionInterval) + tileDestructionDelay);
+                }
             }
 
-            OnTileChainCompleted?.Invoke();
+            Invoke("FireTileChainDestroyedEvent", (tileChain.Count * tileConsumptionInterval) + tileDestructionDelay);
+
+            OnTileChainConsumed?.Invoke();
 
             ClearChain();
         }
+    }
+
+    private void FireTileChainDestroyedEvent()
+    {
+        OnTileChainDestroyed?.Invoke();
     }
 
     private void ClearChain()

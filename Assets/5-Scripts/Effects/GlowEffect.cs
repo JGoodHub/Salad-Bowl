@@ -12,7 +12,7 @@ public class GlowEffect : MonoBehaviour
         Debug.Assert(glowRenderer != null, "Glow renderer is null");
         Debug.Assert(glowParticleSys != null, "Glow particle system is null");
 
-        SetEffectColour(GetComponentInParent<TileData>().color);
+        SetEffectColour(GetComponentInParent<TileData>().type);
     }
 
     public void SetEffectColour(ColorPalette.TileType tileColor)
