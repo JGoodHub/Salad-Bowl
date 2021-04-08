@@ -15,12 +15,12 @@ MonoBehaviour:
   quotas:
   - name: Red
     type: 0
-    target: 5
+    target: 10
   - name: Green
     type: 3
     target: 10
   - name: Blue
     type: 4
-    target: 15
-  moveLimit: 15
+    target: 10
+  moveLimit: 30
   completionBonus: 100

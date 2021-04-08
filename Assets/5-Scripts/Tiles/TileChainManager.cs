@@ -15,8 +15,8 @@ public class TileChainManager : Singleton<TileChainManager>
 
     // Key start and stop events
     public UnityTileDataEvent OnTileChainStarted;
-    public UnityTileChainEvent OnTileChainConsumed;
-    public UnityTileChainEvent OnTileChainFailed;
+    public UnityTileArrayEvent OnTileChainConsumed;
+    public UnityTileArrayEvent OnTileChainFailed;
     public UnityEvent OnTileChainDestroyed;
 
     private void Start()

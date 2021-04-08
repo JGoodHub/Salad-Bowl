@@ -3,8 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLauncher : MonoBehaviour
+public class SceneCoordinator : Singleton<SceneCoordinator>
 {
+
+    public int menuSceneIndex;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public void LaunchMenuScene()
+    {
+        LaunchSceneWithIndex(menuSceneIndex);
+    }
+
+    public void ReloadCurrentScene()
+    {
+        LaunchSceneWithIndex(SceneManager.GetActiveScene().buildIndex);
+    }
 
     /// <summary>
     /// Launches the scene with the specific index in the build settings
@@ -17,7 +34,5 @@ public class SceneLauncher : MonoBehaviour
 
         SceneManager.LoadScene(sceneIndex);
     }
-
-
 
 }

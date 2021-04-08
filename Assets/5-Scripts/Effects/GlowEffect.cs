@@ -17,7 +17,7 @@ public class GlowEffect : MonoBehaviour
 
     public void SetEffectColour(Tile.Type tileType)
     {
-        Color colorRGB = ColorPalette.Instance.ConvertTileTypeToRGB(tileType, true);
+        Color colorRGB = GameCoordinator.Instance.TileLoadouts.ConvertTileTypeToRGB(tileType, true);
 
         glowRenderer.color = colorRGB;
         ParticleSystem.MainModule mainModule = glowParticleSys.main;

@@ -14,11 +14,13 @@ public class TileGridController : Singleton<TileGridController>
 
     private BoardLayoutData boardLayout;
 
+    public bool gridLocked;
+
     private void Start()
     {
-        Random.InitState(GameCoordinator.Instance.BoardLayout.seed);
-
         boardLayout = GameCoordinator.Instance.BoardLayout;
+
+        Random.InitState(boardLayout.seed);
 
         // Create the tile objects and place then on the grid
 
@@ -115,6 +117,11 @@ public class TileGridController : Singleton<TileGridController>
         }
     }
 
+    public void SetGridLocked(bool isLocked)
+    {
+
+    }
+
     public Tile CreateNewTileAtGridRef(int x, int y)
     {
         Tile tileData = Instantiate(boardLayout.tilePrefabs[Random.Range(0, boardLayout.tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent).GetComponent<Tile>();
@@ -139,6 +146,11 @@ public class TileGridController : Singleton<TileGridController>
 
     private void OnDrawGizmos()
     {
+        boardLayout = GameCoordinator.Instance.BoardLayout;
+
+        if (boardLayout == null)
+            return;
+
         for (int y = 0; y < boardLayout.height; y++)
         {
             for (int x = 0; x < boardLayout.width; x++)

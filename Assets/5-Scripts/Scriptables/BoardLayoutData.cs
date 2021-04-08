@@ -30,7 +30,7 @@ public class BoardLayoutData : ScriptableObject
         spacing = Mathf.Clamp(spacing, 0f, float.MaxValue);
     }
 
-    private void Awake()
+    public void Init()
     {
         if (randomSeed)
             seed = System.DateTime.Now.GetHashCode();

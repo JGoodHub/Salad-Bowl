@@ -23,7 +23,7 @@ public class LineBehaviour : Singleton<LineBehaviour>
 
     private void SetLineColour(Tile tile)
     {
-        SetLineColour(ColorPalette.Instance.ConvertTileTypeToRGB(tile.type, true));
+        SetLineColour(GameCoordinator.Instance.TileLoadouts.ConvertTileTypeToRGB(tile.type, true));
     }
 
     public void SetLineColour(Color color)

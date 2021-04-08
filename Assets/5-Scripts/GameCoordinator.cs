@@ -23,5 +23,11 @@ public class GameCoordinator : Singleton<GameCoordinator>
         get { return tileLoadoutsData; }
     }
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+
+        BoardLayout.Init();
+    }
 
 }

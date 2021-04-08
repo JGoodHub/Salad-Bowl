@@ -17,7 +17,7 @@ public class SplatEffect : MonoBehaviour
 
     public void SetEffectColour(Tile.Type tileColor)
     {
-        spriteRen.color = ColorPalette.Instance.ConvertTileTypeToRGB(tileColor, true);
+        spriteRen.color = GameCoordinator.Instance.TileLoadouts.ConvertTileTypeToRGB(tileColor, true);
     }
 
     public void PlaySplatAnimation()
