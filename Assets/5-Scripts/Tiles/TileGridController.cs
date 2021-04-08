@@ -5,48 +5,30 @@ using UnityEngine.Events;
 
 public class TileGridController : Singleton<TileGridController>
 {
-    public delegate void TileGridGenerated(TileData[,] tileGrid);
+    public delegate void TileGridGenerated(Tile[,] tileGrid);
     public event TileGridGenerated OnTileGridGenerated;
 
     [Header("Board Parameters")]
-
-    public int width;
-    public int height;
-    public float spacing;
-
-    public int seed;
-    public bool randomSeed = true;
-
-    public GameObject[] tilePrefabs;
     public Transform tilesParent;
-    private TileData[,] tileGrid;
+    private Tile[,] tileGrid;
 
-    private void OnValidate()
-    {
-        width = Mathf.Clamp(width, 3, 9);
-        height = Mathf.Clamp(height, 3, 9);
-
-        spacing = Mathf.Clamp(spacing, 0f, float.MaxValue);
-    }
+    private BoardLayoutData boardLayout;
 
     private void Start()
     {
-        if (randomSeed)
-            seed = System.DateTime.Now.GetHashCode();
+        Random.InitState(GameCoordinator.Instance.BoardLayout.seed);
 
-        Random.InitState(seed);
-
-        // Clear any existing tiles
+        boardLayout = GameCoordinator.Instance.BoardLayout;
 
         // Create the tile objects and place then on the grid
 
-        tileGrid = new TileData[width, height];
+        tileGrid = new Tile[boardLayout.width, boardLayout.height];
 
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < boardLayout.height; y++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < boardLayout.width; x++)
             {
-                TileData tileData = Instantiate(tilePrefabs[Random.Range(0, tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent).GetComponent<TileData>();
+                Tile tileData = Instantiate(boardLayout.tilePrefabs[Random.Range(0, boardLayout.tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent).GetComponent<Tile>();
 
                 tileData.gridRef = new Vector2Int(x, y);
                 tileData.transform.position = GridToWorldSpace(tileData.gridRef);
@@ -60,15 +42,15 @@ public class TileGridController : Singleton<TileGridController>
 
         OnTileGridGenerated?.Invoke(tileGrid);
 
-        TileChainController.Instance.OnTileChainDestroyed.AddListener(CheckForGapsInStacks);
+        TileChainManager.Instance.OnTileChainDestroyed.AddListener(CheckForGapsInStacks);
 
     }
 
     public void RecalculateAdjacentTiles()
     {
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < boardLayout.height; y++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < boardLayout.width; x++)
             {
                 for (int yOff = -1; yOff <= 1; yOff++)
                 {
@@ -126,16 +108,16 @@ public class TileGridController : Singleton<TileGridController>
             {
                 if (tileGrid[x, y] == null)
                 {
-                    tileGrid[x, y] = CreateNewTileAtGridRef(x, height + y);
+                    tileGrid[x, y] = CreateNewTileAtGridRef(x, boardLayout.height + y);
                     tileGrid[x, y].MoveToGridRef(x, y);
                 }
             }
         }
     }
 
-    public TileData CreateNewTileAtGridRef(int x, int y)
+    public Tile CreateNewTileAtGridRef(int x, int y)
     {
-        TileData tileData = Instantiate(tilePrefabs[Random.Range(0, tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent).GetComponent<TileData>();
+        Tile tileData = Instantiate(boardLayout.tilePrefabs[Random.Range(0, boardLayout.tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent).GetComponent<Tile>();
 
         tileData.gridRef = new Vector2Int(x, y);
         tileData.transform.position = GridToWorldSpace(tileData.gridRef);
@@ -145,25 +127,25 @@ public class TileGridController : Singleton<TileGridController>
 
     public Vector3 GridToWorldSpace(Vector2Int gridPos)
     {
-        float x = gridPos.x - (width / 2) + (width % 2 == 0 ? 0.5f : 0);
-        float y = gridPos.y - (height / 2) + (height % 2 == 0 ? 0.5f : 0);
-        return tilesParent.transform.position + (new Vector3(x, y, 0f) * spacing);
+        float x = gridPos.x - (boardLayout.width / 2) + (boardLayout.width % 2 == 0 ? 0.5f : 0);
+        float y = gridPos.y - (boardLayout.height / 2) + (boardLayout.height % 2 == 0 ? 0.5f : 0);
+        return tilesParent.transform.position + (new Vector3(x, y, 0f) * boardLayout.spacing);
     }
 
     public bool IsWithinGrid(int x, int y)
     {
-        return x >= 0 && x < width && y >= 0 && y < height;
+        return x >= 0 && x < boardLayout.width && y >= 0 && y < boardLayout.height;
     }
 
     private void OnDrawGizmos()
     {
-        for (int y = 0; y < height; y++)
+        for (int y = 0; y < boardLayout.height; y++)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < boardLayout.width; x++)
             {
                 Gizmos.color = Color.red;
 
-                Gizmos.DrawWireSphere(GridToWorldSpace(new Vector2Int(x, y)), spacing / 2f);
+                Gizmos.DrawWireSphere(GridToWorldSpace(new Vector2Int(x, y)), boardLayout.spacing / 2f);
             }
         }
     }

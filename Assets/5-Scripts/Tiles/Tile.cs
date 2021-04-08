@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TileData : MonoBehaviour
+public class Tile : MonoBehaviour
 {
 
     [System.Serializable]
@@ -23,8 +23,7 @@ public class TileData : MonoBehaviour
     public bool selected;
     public Vector2Int gridRef;
 
-    public List<TileData> adjacents = new List<TileData>();
-
+    public List<Tile> adjacents = new List<Tile>();
 
     // Moving parameters
     public float fallSpeed;
@@ -46,12 +45,12 @@ public class TileData : MonoBehaviour
     // Start a new chain on this tile
     private void OnMouseDown()
     {
-        TileChainController.Instance.StartNewChainFromTile(this);
+        TileChainManager.Instance.StartNewChainFromTile(this);
     }
 
     private void OnMouseUp()
     {
-        TileChainController.Instance.CommitChain();
+        TileChainManager.Instance.ConsumeChain();
     }
 
     // Add or remove this tile based on its selected status
@@ -61,11 +60,11 @@ public class TileData : MonoBehaviour
         {
             if (selected)
             {
-                TileChainController.Instance.TrimChainToTile(this);
+                TileChainManager.Instance.TrimChainToTile(this);
             }
             else
             {
-                TileChainController.Instance.AddTileToChain(this);
+                TileChainManager.Instance.AddTileToChain(this);
             }
         }
     }

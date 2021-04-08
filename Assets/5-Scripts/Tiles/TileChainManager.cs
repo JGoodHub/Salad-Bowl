@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
-public class UnityTileDataEvent : UnityEvent<TileData> { }
-
-public class TileChainController : Singleton<TileChainController>
+public class TileChainManager : Singleton<TileChainManager>
 {
-    private List<TileData> tileChain;
-    public float tileConsumptionInterval = 0.125f;
-    public float tileDestructionDelay = 0.8f;
+    private List<Tile> tileChain;
+    public float tileConsumptionInterval = 0.1f;
+    public float tileDestructionDelay = 0.5f;
 
     // Events for add and remove
     public UnityTileDataEvent OnTileAddedToChain;
@@ -18,17 +15,17 @@ public class TileChainController : Singleton<TileChainController>
 
     // Key start and stop events
     public UnityTileDataEvent OnTileChainStarted;
-    public UnityEvent OnTileChainCancelled;
-    public UnityEvent OnTileChainConsumed;
+    public UnityTileChainEvent OnTileChainConsumed;
+    public UnityTileChainEvent OnTileChainFailed;
     public UnityEvent OnTileChainDestroyed;
 
     private void Start()
     {
-        tileChain = new List<TileData>();
+        tileChain = new List<Tile>();
     }
 
     // Start a new tile chain with the passed tile
-    public void StartNewChainFromTile(TileData tile)
+    public void StartNewChainFromTile(Tile tile)
     {
         ClearChain();
 
@@ -38,7 +35,7 @@ public class TileChainController : Singleton<TileChainController>
     }
 
     // Add the tile passed to the existing chain or create one if none exists
-    public void AddTileToChain(TileData tile)
+    public void AddTileToChain(Tile tile)
     {
         // Validation checks
         Debug.Assert(tileChain != null, "Tile chain list is null");
@@ -60,7 +57,7 @@ public class TileChainController : Singleton<TileChainController>
 
     }
 
-    public void TrimChainToTile(TileData tile)
+    public void TrimChainToTile(Tile tile)
     {
         // Validation checks
         Debug.Assert(tileChain != null, "Tile chain list is null");
@@ -76,7 +73,7 @@ public class TileChainController : Singleton<TileChainController>
                 }
                 else
                 {
-                    TileData removedTile = tileChain[i];
+                    Tile removedTile = tileChain[i];
                     removedTile.SetSelectedState(false);
                     tileChain.RemoveAt(i);
 
@@ -86,15 +83,15 @@ public class TileChainController : Singleton<TileChainController>
         }
     }
 
-    public void CommitChain()
+    public void ConsumeChain()
     {
         // Validation checks
         Debug.Assert(tileChain != null, "Tile chain is null");
 
         if (tileChain.Count < 3)
         {
+            OnTileChainFailed?.Invoke(tileChain.ToArray());
             ClearChain();
-            OnTileChainCancelled?.Invoke();
         }
         else
         {
@@ -114,7 +111,7 @@ public class TileChainController : Singleton<TileChainController>
 
             Invoke("FireTileChainDestroyedEvent", (tileChain.Count * tileConsumptionInterval) + tileDestructionDelay);
 
-            OnTileChainConsumed?.Invoke();
+            OnTileChainConsumed?.Invoke(tileChain.ToArray());
 
             ClearChain();
         }
