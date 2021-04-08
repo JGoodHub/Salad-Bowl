@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3832421d2612e24408e82846f34908d7, type: 3}
+  m_Name: TileLoadouts
+  m_EditorClassIdentifier: 
+  loadouts:
+  - name: Red
+    type: 0
+    score: 5
+    image: {fileID: 21300000, guid: 95124665998832b44846330d61555df9, type: 3}
+    primaryColor: {r: 0.78, g: 0.27, b: 0.21, a: 1}
+  - name: Orange
+    type: 1
+    score: 5
+    image: {fileID: 21300000, guid: 77bfabf4ec576fc49bd1db14b5260d2b, type: 3}
+    primaryColor: {r: 1, g: 0.54, b: 0, a: 1}
+  - name: Yellow
+    type: 2
+    score: 5
+    image: {fileID: 21300000, guid: b3a792218b873fa47aa1115b582b21ec, type: 3}
+    primaryColor: {r: 1, g: 0.82, b: 0, a: 1}
+  - name: Green
+    type: 3
+    score: 5
+    image: {fileID: 21300000, guid: 86176f8439e9e2d488307a35672d8772, type: 3}
+    primaryColor: {r: 0.13, g: 0.64, b: 0.08, a: 1}
+  - name: Blue
+    type: 4
+    score: 5
+    image: {fileID: 21300000, guid: 46a2d1548022eec47bac81c454dc8ead, type: 3}
+    primaryColor: {r: 0.18, g: 0.32, b: 0.57, a: 1}
+  - name: Pink
+    type: 5
+    score: 5
+    image: {fileID: 21300000, guid: 8f48f2df50bc9da44b70115a8715ad3c, type: 3}
+    primaryColor: {r: 1, g: 0, b: 0.52, a: 1}
