@@ -15,7 +15,7 @@ MonoBehaviour:
   width: 6
   height: 6
   spacing: 1.2
-  seed: 0
+  seed: 1956439172
   randomSeed: 1
   platePrefab: {fileID: 4350133075397374716, guid: 6ae8e82646ff88e43b4d1b293485e2ad,
     type: 3}

@@ -15,7 +15,7 @@ public class GlowEffect : MonoBehaviour
         SetEffectColour(GetComponentInParent<TileSelectionBehaviour>().type);
     }
 
-    public void SetEffectColour(TileSelectionBehaviour.Type tileType)
+    public void SetEffectColour(TileType tileType)
     {
         Color colorRGB = GameCoordinator.Instance.TileLoadouts.ConvertTileTypeToRGB(tileType, true);
 

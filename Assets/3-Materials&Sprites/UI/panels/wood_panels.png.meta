@@ -132,13 +132,13 @@ TextureImporter:
       name: wood_panels_1
       rect:
         serializedVersion: 2
-        x: 937
-        y: 198
+        x: 939
+        y: 196
         width: 994
         height: 642
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 450, y: 260, z: 450, w: 260}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -159,7 +159,7 @@ TextureImporter:
         height: 300
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 350, y: 120, z: 350, w: 120}
       outline: []
       physicsShape: []
       tessellationDetail: 0

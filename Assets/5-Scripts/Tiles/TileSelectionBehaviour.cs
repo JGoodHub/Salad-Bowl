@@ -3,23 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
 public class TileSelectionBehaviour : MonoBehaviour
 {
 
-    [System.Serializable]
-    public enum Type
-    {
-        RED,
-        ORANGE,
-        YELLOW,
-        GREEN,
-        BLUE,
-        PINK
-    }
-
-
     // Tile state
-    public Type type;
+    public TileType type;
     private bool selected;
     public List<TileSelectionBehaviour> adjacents = new List<TileSelectionBehaviour>();
 

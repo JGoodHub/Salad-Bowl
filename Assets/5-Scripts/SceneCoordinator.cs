@@ -7,15 +7,22 @@ public class SceneCoordinator : Singleton<SceneCoordinator>
 {
 
     public int menuSceneIndex;
+    public int playSceneIndex;
 
     private void Awake()
     {
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }
 
     public void LaunchMenuScene()
     {
         LaunchSceneWithIndex(menuSceneIndex);
+    }
+
+    public void LaunchPlayScene()
+    {
+        LaunchSceneWithIndex(playSceneIndex);
     }
 
     public void ReloadCurrentScene()

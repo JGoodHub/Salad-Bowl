@@ -11,23 +11,27 @@ public class GameCoordinator : Singleton<GameCoordinator>
         get { return boardLayoutData; }
     }
 
-    [SerializeField] private LevelQuotaData levelQuotaData;
-    public LevelQuotaData LevelQuota
-    {
-        get { return levelQuotaData; }
-    }
-
     [SerializeField] private TileLoadoutsData tileLoadoutsData;
     public TileLoadoutsData TileLoadouts
     {
         get { return tileLoadoutsData; }
     }
 
+    [SerializeField] private LevelQuotaData levelQuotaData;
+    public LevelQuotaData LevelQuota
+    {
+        get { return levelQuotaData; }
+        set { levelQuotaData = value; }
+    }
+
     private void Awake()
     {
+        transform.parent = null;
         DontDestroyOnLoad(gameObject);
 
         BoardLayout.Init();
     }
+
+
 
 }

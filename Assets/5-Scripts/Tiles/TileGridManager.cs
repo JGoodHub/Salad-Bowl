@@ -14,7 +14,7 @@ public class TileGridManager : Singleton<TileGridManager>
 
     private BoardLayoutData boardLayout;
 
-    public bool GridLocked { get; private set; }
+    public bool GridLocked { get; set; }
 
     private void Start()
     {
@@ -115,26 +115,6 @@ public class TileGridManager : Singleton<TileGridManager>
         }
     }
 
-    public void SetGridLocked(bool isLocked)
-    {
-        GridLocked = isLocked;
-    }
-
-    public bool IsGridMoving()
-    {
-        bool tilesMoving = false;
-        //foreach (TileSelectionBehaviour tile in tileGrid)
-        //{
-        //    if (tile.Moving == true)
-        //    {
-        //        tilesMoving = true;
-        //        break;
-        //    }
-        //}
-
-        return tilesMoving;
-    }
-
     public TileSelectionBehaviour CreateNewTileAtGridRef(int x, int y)
     {
         GameObject tileObject = Instantiate(boardLayout.tilePrefabs[Random.Range(0, boardLayout.tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent);
@@ -152,10 +132,10 @@ public class TileGridManager : Singleton<TileGridManager>
         return GridToWorldSpace(new Vector2Int(x, y));
     }
 
-    public Vector3 GridToWorldSpace(Vector2Int gridPos)
+    public Vector3 GridToWorldSpace(Vector2Int gridRef)
     {
-        float x = gridPos.x - (boardLayout.width / 2) + (boardLayout.width % 2 == 0 ? 0.5f : 0);
-        float y = gridPos.y - (boardLayout.height / 2) + (boardLayout.height % 2 == 0 ? 0.5f : 0);
+        float x = gridRef.x - (boardLayout.width / 2) + (boardLayout.width % 2 == 0 ? 0.5f : 0);
+        float y = gridRef.y - (boardLayout.height / 2) + (boardLayout.height % 2 == 0 ? 0.5f : 0);
         return tilesParent.transform.position + (new Vector3(x, y, 0f) * boardLayout.spacing);
     }
 
@@ -164,6 +144,113 @@ public class TileGridManager : Singleton<TileGridManager>
         return x >= 0 && x < boardLayout.width && y >= 0 && y < boardLayout.height;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="shuffleIterations"></param>
+    public void ShuffleTiles(int shuffleIterations)
+    {
+        Vector2Int[,] newGridRefs = new Vector2Int[tileGrid.GetLength(0), tileGrid.GetLength(1)];
+
+        for (int y = 0; y < newGridRefs.GetLength(1); y++)
+        {
+            for (int x = 0; x < newGridRefs.GetLength(0); x++)
+            {
+                newGridRefs[x, y] = tileGrid[x, y].GetComponent<TileMovementBehaviour>().GridRef;
+            }
+        }
+
+        for (int r = 0; r < shuffleIterations; r++)
+        {
+            Vector2Int randomRefA = new Vector2Int(Random.Range(0, newGridRefs.GetLength(0)), Random.Range(0, newGridRefs.GetLength(1)));
+            Vector2Int randomRefB = new Vector2Int(Random.Range(0, newGridRefs.GetLength(0)), Random.Range(0, newGridRefs.GetLength(1)));
+
+            Vector2Int temp = newGridRefs[randomRefA.x, randomRefA.y];
+            newGridRefs[randomRefA.x, randomRefA.y] = newGridRefs[randomRefB.x, randomRefB.y];
+            newGridRefs[randomRefB.x, randomRefB.y] = temp;
+        }
+
+        for (int y = 0; y < newGridRefs.GetLength(1); y++)
+        {
+            for (int x = 0; x < newGridRefs.GetLength(0); x++)
+            {
+                tileGrid[x, y].GetComponent<TileMovementBehaviour>().MoveToGridRef(newGridRefs[x, y], false);
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="validLength"></param>
+    /// <returns></returns>
+    public bool CheckForValidChain(TileType type, int validLength)
+    {
+        HashSet<TileSelectionBehaviour> closedSet = new HashSet<TileSelectionBehaviour>();
+        Queue<TileSelectionBehaviour> searchQueue = new Queue<TileSelectionBehaviour>();
+        Dictionary<TileSelectionBehaviour, int> tileLengths = new Dictionary<TileSelectionBehaviour, int>();
+
+        int maxChainLength = 0;
+        foreach (TileSelectionBehaviour tile in tileGrid)
+        {
+            if (tile.type != type || closedSet.Contains(tile))
+                continue;
+
+            searchQueue.Enqueue(tile);
+            tileLengths.Add(tile, 1);
+
+            maxChainLength = Mathf.Max(maxChainLength, 1);
+
+            while (searchQueue.Count > 0)
+            {
+                TileSelectionBehaviour searchTile = searchQueue.Dequeue();
+
+                foreach (TileSelectionBehaviour adjacent in searchTile.adjacents)
+                {
+                    if (adjacent.type != type || closedSet.Contains(adjacent))
+                        continue;
+
+                    searchQueue.Enqueue(adjacent);
+
+                    if (tileLengths.ContainsKey(adjacent))
+                        tileLengths[adjacent] = tileLengths[searchTile] + 1;
+                    else
+                        tileLengths.Add(adjacent, tileLengths[searchTile] + 1);
+
+                    maxChainLength = Mathf.Max(maxChainLength, tileLengths[searchTile] + 1);
+                }
+
+                closedSet.Add(searchTile);
+            }
+        }
+
+        return maxChainLength >= validLength;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="validChainLength"></param>
+    /// <returns></returns>
+    public bool GridContainsValidChain(int validChainLength)
+    {
+        bool validChainExists = false;
+        foreach (TileType type in System.Enum.GetValues(typeof(TileType)))
+        {
+            if (CheckForValidChain(type, 3) == true)
+            {
+                validChainExists = true;
+            }
+        }
+
+        return validChainExists;
+    }
+
+    /// <summary>
+    /// Draws a preview of the board layout
+    /// </summary>
     private void OnDrawGizmos()
     {
         boardLayout = GameCoordinator.Instance.BoardLayout;
@@ -181,5 +268,4 @@ public class TileGridManager : Singleton<TileGridManager>
             }
         }
     }
-
 }
