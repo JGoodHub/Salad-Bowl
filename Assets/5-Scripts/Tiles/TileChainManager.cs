@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class TileChainManager : Singleton<TileChainManager>
 {
-    private List<Tile> tileChain;
+    private List<TileSelectionBehaviour> tileChain;
     public float tileConsumptionInterval = 0.1f;
     public float tileDestructionDelay = 0.5f;
 
@@ -21,11 +21,11 @@ public class TileChainManager : Singleton<TileChainManager>
 
     private void Start()
     {
-        tileChain = new List<Tile>();
+        tileChain = new List<TileSelectionBehaviour>();
     }
 
     // Start a new tile chain with the passed tile
-    public void StartNewChainFromTile(Tile tile)
+    public void StartNewChainFromTile(TileSelectionBehaviour tile)
     {
         ClearChain();
 
@@ -35,7 +35,7 @@ public class TileChainManager : Singleton<TileChainManager>
     }
 
     // Add the tile passed to the existing chain or create one if none exists
-    public void AddTileToChain(Tile tile)
+    public void AddTileToChain(TileSelectionBehaviour tile)
     {
         // Validation checks
         Debug.Assert(tileChain != null, "Tile chain list is null");
@@ -57,7 +57,7 @@ public class TileChainManager : Singleton<TileChainManager>
 
     }
 
-    public void TrimChainToTile(Tile tile)
+    public void TrimChainToTile(TileSelectionBehaviour tile)
     {
         // Validation checks
         Debug.Assert(tileChain != null, "Tile chain list is null");
@@ -73,7 +73,7 @@ public class TileChainManager : Singleton<TileChainManager>
                 }
                 else
                 {
-                    Tile removedTile = tileChain[i];
+                    TileSelectionBehaviour removedTile = tileChain[i];
                     removedTile.SetSelectedState(false);
                     tileChain.RemoveAt(i);
 

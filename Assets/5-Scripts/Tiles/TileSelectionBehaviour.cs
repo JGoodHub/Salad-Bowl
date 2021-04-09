@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Tile : MonoBehaviour
+public class TileSelectionBehaviour : MonoBehaviour
 {
 
     [System.Serializable]
@@ -20,13 +20,8 @@ public class Tile : MonoBehaviour
 
     // Tile state
     public Type type;
-    public bool selected;
-    public Vector2Int gridRef;
-
-    public List<Tile> adjacents = new List<Tile>();
-
-    // Moving parameters
-    public float fallSpeed;
+    private bool selected;
+    public List<TileSelectionBehaviour> adjacents = new List<TileSelectionBehaviour>();
 
     // Tile events
     public UnityTileDataEvent OnTileInitalise;
@@ -100,31 +95,5 @@ public class Tile : MonoBehaviour
         OnTileDestroyed?.Invoke(this);
 
         Destroy(gameObject);
-    }
-
-    public void MoveToGridRef(int x, int y)
-    {
-        MoveToGridRef(new Vector2Int(x, y));
-    }
-
-    public void MoveToGridRef(Vector2Int newPosition)
-    {
-        if (gridRef.Equals(newPosition))
-            return;
-
-        StopAllCoroutines();
-        StartCoroutine(MoveToGridPositionCoroutine(newPosition));
-    }
-
-    private IEnumerator MoveToGridPositionCoroutine(Vector2Int newGridPos)
-    {
-        Vector3 newWorldPosition = TileGridController.Instance.GridToWorldSpace(newGridPos);
-        while (transform.position.Equals(newWorldPosition) == false)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, newWorldPosition, fallSpeed * Time.deltaTime);
-            yield return null;
-        }
-
-        gridRef = newGridPos;
     }
 }

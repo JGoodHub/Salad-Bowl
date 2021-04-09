@@ -21,7 +21,7 @@ public class LineBehaviour : Singleton<LineBehaviour>
         TileChainManager.Instance.OnTileChainConsumed.AddListener(ResetLine);
     }
 
-    private void SetLineColour(Tile tile)
+    private void SetLineColour(TileSelectionBehaviour tile)
     {
         SetLineColour(GameCoordinator.Instance.TileLoadouts.ConvertTileTypeToRGB(tile.type, true));
     }
@@ -31,19 +31,19 @@ public class LineBehaviour : Singleton<LineBehaviour>
         lineRen.sharedMaterial.color = color;
     }
 
-    private void AddTileToLine(Tile tile)
+    private void AddTileToLine(TileSelectionBehaviour tile)
     {
         linePositions.Add(tile.transform.position);
         UpdateLineRenderer();
     }
 
-    private void RemoveTileFromLine(Tile tile)
+    private void RemoveTileFromLine(TileSelectionBehaviour tile)
     {
         linePositions.Remove(tile.transform.position);
         UpdateLineRenderer();
     }
 
-    private void ResetLine(Tile[] tileChain)
+    private void ResetLine(TileSelectionBehaviour[] tileChain)
     {
         linePositions.Clear();
         lineRen.positionCount = 0;

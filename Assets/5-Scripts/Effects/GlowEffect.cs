@@ -12,10 +12,10 @@ public class GlowEffect : MonoBehaviour
         Debug.Assert(glowRenderer != null, "Glow renderer is null");
         Debug.Assert(glowParticleSys != null, "Glow particle system is null");
 
-        SetEffectColour(GetComponentInParent<Tile>().type);
+        SetEffectColour(GetComponentInParent<TileSelectionBehaviour>().type);
     }
 
-    public void SetEffectColour(Tile.Type tileType)
+    public void SetEffectColour(TileSelectionBehaviour.Type tileType)
     {
         Color colorRGB = GameCoordinator.Instance.TileLoadouts.ConvertTileTypeToRGB(tileType, true);
 

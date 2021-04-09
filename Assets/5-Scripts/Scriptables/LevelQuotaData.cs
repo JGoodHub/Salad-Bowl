@@ -9,7 +9,7 @@ public class LevelQuotaData : ScriptableObject
     public struct Quota
     {
         public string name;
-        public Tile.Type type;
+        public TileSelectionBehaviour.Type type;
         public int target;
     }
 
@@ -21,7 +21,7 @@ public class LevelQuotaData : ScriptableObject
     public int completionBonus;
 
 
-    public int GetTargetForType(Tile.Type type)
+    public int GetTargetForType(TileSelectionBehaviour.Type type)
     {
         for (int i = 0; i < quotas.Length; i++)
         {

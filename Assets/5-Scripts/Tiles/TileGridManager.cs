@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TileGridController : Singleton<TileGridController>
+public class TileGridManager : Singleton<TileGridManager>
 {
-    public delegate void TileGridGenerated(Tile[,] tileGrid);
+    public delegate void TileGridGenerated(TileSelectionBehaviour[,] tileGrid);
     public event TileGridGenerated OnTileGridGenerated;
 
     [Header("Board Parameters")]
     public Transform tilesParent;
-    private Tile[,] tileGrid;
+    private TileSelectionBehaviour[,] tileGrid;
 
     private BoardLayoutData boardLayout;
 
-    public bool gridLocked;
+    public bool GridLocked { get; private set; }
 
     private void Start()
     {
@@ -24,18 +24,16 @@ public class TileGridController : Singleton<TileGridController>
 
         // Create the tile objects and place then on the grid
 
-        tileGrid = new Tile[boardLayout.width, boardLayout.height];
+        tileGrid = new TileSelectionBehaviour[boardLayout.width, boardLayout.height];
 
         for (int y = 0; y < boardLayout.height; y++)
         {
             for (int x = 0; x < boardLayout.width; x++)
             {
-                Tile tileData = Instantiate(boardLayout.tilePrefabs[Random.Range(0, boardLayout.tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent).GetComponent<Tile>();
+                TileSelectionBehaviour tileSelection = CreateNewTileAtGridRef(x, y);
+                TileMovementBehaviour tileMovement = tileSelection.GetComponent<TileMovementBehaviour>();
 
-                tileData.gridRef = new Vector2Int(x, y);
-                tileData.transform.position = GridToWorldSpace(tileData.gridRef);
-
-                tileGrid[x, y] = tileData;
+                tileGrid[x, y] = tileSelection;
             }
         }
 
@@ -90,7 +88,7 @@ public class TileGridController : Singleton<TileGridController>
                         tileGrid[x, newY] = tileGrid[x, currY];
                         tileGrid[x, currY] = null;
 
-                        tileGrid[x, newY].MoveToGridRef(new Vector2Int(x, newY));
+                        tileGrid[x, newY].GetComponent<TileMovementBehaviour>().MoveToGridRef(x, newY, false);
                         break;
                     }
                 }
@@ -111,7 +109,7 @@ public class TileGridController : Singleton<TileGridController>
                 if (tileGrid[x, y] == null)
                 {
                     tileGrid[x, y] = CreateNewTileAtGridRef(x, boardLayout.height + y);
-                    tileGrid[x, y].MoveToGridRef(x, y);
+                    tileGrid[x, y].GetComponent<TileMovementBehaviour>().MoveToGridRef(x, y, false);
                 }
             }
         }
@@ -119,17 +117,39 @@ public class TileGridController : Singleton<TileGridController>
 
     public void SetGridLocked(bool isLocked)
     {
-
+        GridLocked = isLocked;
     }
 
-    public Tile CreateNewTileAtGridRef(int x, int y)
+    public bool IsGridMoving()
     {
-        Tile tileData = Instantiate(boardLayout.tilePrefabs[Random.Range(0, boardLayout.tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent).GetComponent<Tile>();
+        bool tilesMoving = false;
+        //foreach (TileSelectionBehaviour tile in tileGrid)
+        //{
+        //    if (tile.Moving == true)
+        //    {
+        //        tilesMoving = true;
+        //        break;
+        //    }
+        //}
 
-        tileData.gridRef = new Vector2Int(x, y);
-        tileData.transform.position = GridToWorldSpace(tileData.gridRef);
+        return tilesMoving;
+    }
 
-        return tileData;
+    public TileSelectionBehaviour CreateNewTileAtGridRef(int x, int y)
+    {
+        GameObject tileObject = Instantiate(boardLayout.tilePrefabs[Random.Range(0, boardLayout.tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent);
+
+        TileSelectionBehaviour tileSelection = tileObject.GetComponent<TileSelectionBehaviour>();
+        TileMovementBehaviour tileMovement = tileObject.GetComponent<TileMovementBehaviour>();
+
+        tileMovement.MoveToGridRef(x, y, true);
+
+        return tileSelection;
+    }
+
+    public Vector3 GridToWorldSpace(int x, int y)
+    {
+        return GridToWorldSpace(new Vector2Int(x, y));
     }
 
     public Vector3 GridToWorldSpace(Vector2Int gridPos)

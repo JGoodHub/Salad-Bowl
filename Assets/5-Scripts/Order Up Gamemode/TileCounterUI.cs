@@ -8,11 +8,11 @@ public class TileCounterUI : Singleton<TileCounterUI>
     public GameObject tileCounterPrefab;
     public Transform counterEntriesParent;
 
-    private Dictionary<Tile.Type, TileCounterEntry> counterEntries;
+    private Dictionary<TileSelectionBehaviour.Type, TileCounterEntry> counterEntries;
 
     public void CreateAndPopulateQuotaEntries(LevelQuotaData.Quota[] quotas)
     {
-        counterEntries = new Dictionary<Tile.Type, TileCounterEntry>();
+        counterEntries = new Dictionary<TileSelectionBehaviour.Type, TileCounterEntry>();
 
         for (int i = 0; i < quotas.Length; i++)
         {
@@ -27,7 +27,7 @@ public class TileCounterUI : Singleton<TileCounterUI>
         }
     }
 
-    public void SetCounterForType(Tile.Type type, int newCount)
+    public void SetCounterForType(TileSelectionBehaviour.Type type, int newCount)
     {
         if (counterEntries.ContainsKey(type) == false)
             return;
@@ -35,7 +35,7 @@ public class TileCounterUI : Singleton<TileCounterUI>
         counterEntries[type].SetCounter(newCount);
     }
 
-    public void SetCompletetionForType(Tile.Type type, bool complete)
+    public void SetCompletetionForType(TileSelectionBehaviour.Type type, bool complete)
     {
         if (counterEntries.ContainsKey(type) == false)
             return;

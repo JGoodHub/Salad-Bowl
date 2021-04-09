@@ -9,7 +9,7 @@ public class TileQuotaManager : Singleton<TileQuotaManager>
 
     public LevelQuotaData levelQuota;
 
-    private Dictionary<Tile.Type, int> counters;
+    private Dictionary<TileSelectionBehaviour.Type, int> counters;
 
     [Header("Event Triggers")]
     [Space]
@@ -23,18 +23,18 @@ public class TileQuotaManager : Singleton<TileQuotaManager>
 
         TileChainManager.Instance.OnTileChainConsumed.AddListener(OnTileChainCompleted);
 
-        counters = new Dictionary<Tile.Type, int>();
+        counters = new Dictionary<TileSelectionBehaviour.Type, int>();
         for (int i = 0; i < levelQuota.quotas.Length; i++)
             counters.Add(levelQuota.quotas[i].type, 0);
     }
 
 
-    private void OnTileChainCompleted(Tile[] tileChain)
+    private void OnTileChainCompleted(TileSelectionBehaviour[] tileChain)
     {
         if (tileChain == null || tileChain.Length == 0 || counters.ContainsKey(tileChain[0].type) == false)
             return;
 
-        Tile.Type chainType = tileChain[0].type;
+        TileSelectionBehaviour.Type chainType = tileChain[0].type;
         int typeTarget = levelQuota.GetTargetForType(chainType);
 
         counters[chainType] += tileChain.Length;
@@ -52,7 +52,7 @@ public class TileQuotaManager : Singleton<TileQuotaManager>
     private void CheckAllQuotasComplete()
     {
         bool allComplete = true;
-        foreach (Tile.Type type in counters.Keys)
+        foreach (TileSelectionBehaviour.Type type in counters.Keys)
         {
             if (counters[type] < levelQuota.GetTargetForType(type))
             {
