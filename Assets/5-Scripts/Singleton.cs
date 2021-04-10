@@ -31,9 +31,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                         var singletonObject = new GameObject();
                         instance = singletonObject.AddComponent<T>();
                         singletonObject.name = typeof(T).ToString() + " (Singleton)";
-
-                        // Make instance persistent.
-                        DontDestroyOnLoad(singletonObject);
                     }
                 }
 
@@ -41,5 +38,19 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             }
         }
     }
+
+    protected virtual void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this as T;
+        }
+        else if (instance != this)
+        {
+            Debug.Log($"Instance of Singleton |{typeof(T)}| already exists, destroying this copy '{gameObject.name}'", gameObject);
+            Destroy(gameObject);
+        }
+    }
+
 }
 

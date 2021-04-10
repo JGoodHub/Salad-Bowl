@@ -9,8 +9,10 @@ public class SceneCoordinator : Singleton<SceneCoordinator>
     public int menuSceneIndex;
     public int playSceneIndex;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
     }

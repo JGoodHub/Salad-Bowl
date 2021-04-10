@@ -24,8 +24,10 @@ public class GameCoordinator : Singleton<GameCoordinator>
         set { levelQuotaData = value; }
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
 

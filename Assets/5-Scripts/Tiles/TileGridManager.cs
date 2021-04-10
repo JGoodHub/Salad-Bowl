@@ -14,7 +14,8 @@ public class TileGridManager : Singleton<TileGridManager>
 
     private BoardLayoutData boardLayout;
 
-    public bool GridLocked { get; set; }
+    private int tileMovingCount;
+    public bool GridLocked;
 
     private void Start()
     {
@@ -42,8 +43,8 @@ public class TileGridManager : Singleton<TileGridManager>
 
         OnTileGridGenerated?.Invoke(tileGrid);
 
+        TileChainManager.Instance.OnTileChainConsumed.AddListener(OnTileChianDestroyed);
         TileChainManager.Instance.OnTileChainDestroyed.AddListener(CheckForGapsInStacks);
-
     }
 
     public void RecalculateAdjacentTiles()
@@ -52,6 +53,8 @@ public class TileGridManager : Singleton<TileGridManager>
         {
             for (int x = 0; x < boardLayout.width; x++)
             {
+                tileGrid[x, y].adjacents.Clear();
+
                 for (int yOff = -1; yOff <= 1; yOff++)
                 {
                     for (int xOff = -1; xOff <= 1; xOff++)
@@ -96,8 +99,6 @@ public class TileGridManager : Singleton<TileGridManager>
         }
 
         FillEmptyGaps();
-
-        RecalculateAdjacentTiles();
     }
 
     private void FillEmptyGaps()
@@ -122,6 +123,9 @@ public class TileGridManager : Singleton<TileGridManager>
         TileSelectionBehaviour tileSelection = tileObject.GetComponent<TileSelectionBehaviour>();
         TileMovementBehaviour tileMovement = tileObject.GetComponent<TileMovementBehaviour>();
 
+        tileMovement.OnTileStartedMoving.AddListener(RegisterTileStartedMoving);
+        tileMovement.OnTileFinishedMoving.AddListener(RegisterTileStoppedMoving);
+
         tileMovement.MoveToGridRef(x, y, true);
 
         return tileSelection;
@@ -142,6 +146,36 @@ public class TileGridManager : Singleton<TileGridManager>
     public bool IsWithinGrid(int x, int y)
     {
         return x >= 0 && x < boardLayout.width && y >= 0 && y < boardLayout.height;
+    }
+
+    public void OnTileChianDestroyed(TileSelectionBehaviour[] tileChain)
+    {
+        GridLocked = true;
+    }
+
+    private void RegisterTileStartedMoving(TileSelectionBehaviour tile)
+    {
+        tileMovingCount++;
+        GridLocked = true;
+    }
+
+    private void RegisterTileStoppedMoving(TileSelectionBehaviour tile)
+    {
+        tileMovingCount--;
+
+        Debug.Assert(tileMovingCount >= 0, "tileMovingCount is somehow below zero, this is an invalid state");
+
+        if (tileMovingCount == 0)
+        {
+            GridLocked = false;
+
+            RecalculateAdjacentTiles();
+
+            if (GridContainsValidChain(3) == false)
+            {
+                ShuffleTiles(200);
+            }
+        }
     }
 
     /// <summary>
@@ -239,7 +273,7 @@ public class TileGridManager : Singleton<TileGridManager>
         bool validChainExists = false;
         foreach (TileType type in System.Enum.GetValues(typeof(TileType)))
         {
-            if (CheckForValidChain(type, 3) == true)
+            if (CheckForValidChain(type, validChainLength) == true)
             {
                 validChainExists = true;
             }

@@ -29,18 +29,20 @@ public class TileSelectionBehaviour : MonoBehaviour
     // Start a new chain on this tile
     private void OnMouseDown()
     {
-        TileChainManager.Instance.StartNewChainFromTile(this);
+        if (TileGridManager.Instance.GridLocked == false)
+            TileChainManager.Instance.StartNewChainFromTile(this);
     }
 
     private void OnMouseUp()
     {
-        TileChainManager.Instance.ConsumeChain();
+        if (TileGridManager.Instance.GridLocked == false)
+            TileChainManager.Instance.ConsumeChain();
     }
 
     // Add or remove this tile based on its selected status
     private void OnMouseEnter()
     {
-        if (Input.GetMouseButton(0))
+        if (TileGridManager.Instance.GridLocked == false && Input.GetMouseButton(0))
         {
             if (selected)
             {

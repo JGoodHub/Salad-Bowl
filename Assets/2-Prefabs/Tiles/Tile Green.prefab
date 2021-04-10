@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 42520409915147538}
   - component: {fileID: 4914539084672721492}
   - component: {fileID: 7266906509137345154}
-  - component: {fileID: 8355060585383175032}
   - component: {fileID: 1217375626960616407}
   m_Layer: 0
   m_Name: Tile Green
@@ -226,15 +225,15 @@ MonoBehaviour:
   OnTileConsumed:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8355060585383175032}
-        m_MethodName: PlayShrinkTileAnimation
-        m_Mode: 1
+      - m_Target: {fileID: 4914539084672721492}
+        m_MethodName: SetTrigger
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Shrink
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8542502688290327832}
@@ -262,19 +261,6 @@ MonoBehaviour:
   OnTileDestroyed:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8355060585383175032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 225576899449716471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce25e3b0f17294447b67a8ee70fd9d39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 4914539084672721492}
 --- !u!114 &1217375626960616407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,7 +278,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.1
       value: 0
       inSlope: 0
       outSlope: 0

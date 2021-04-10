@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class TileQuotaManager : Singleton<TileQuotaManager>
+public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
 {
     [Header("Level Profile")]
 
-    public LevelQuotaData levelQuota;
+    private LevelQuotaData levelQuota;
 
     private Dictionary<TileType, int> counters;
 
@@ -19,6 +19,8 @@ public class TileQuotaManager : Singleton<TileQuotaManager>
 
     private void Start()
     {
+        levelQuota = GameCoordinator.Instance.LevelQuota;
+
         TileCounterUI.Instance.CreateAndPopulateQuotaEntries(levelQuota.quotas);
 
         TileChainManager.Instance.OnTileChainConsumed.AddListener(OnTileChainCompleted);

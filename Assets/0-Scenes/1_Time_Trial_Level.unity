@@ -579,75 +579,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 131209796}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &142703672
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8566029349061087836, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: m_Name
-      value: Coordinators
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f76341cdba45bbf468d7a8d73d8c3ec4, type: 3}
 --- !u!1 &144024964
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,7 +623,7 @@ GameObject:
   - component: {fileID: 161235729}
   - component: {fileID: 161235730}
   m_Layer: 0
-  m_Name: Tile Chain Controller
+  m_Name: Tile Chain Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -771,11 +702,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1035854203}
+  - {fileID: 588902311}
   - {fileID: 196371664}
   - {fileID: 1056614352}
   - {fileID: 161235729}
-  - {fileID: 588902311}
   - {fileID: 529257101}
   - {fileID: 943367624}
   m_Father: {fileID: 0}
@@ -1094,7 +1024,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188760996}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &529257102
 MonoBehaviour:
@@ -1115,12 +1045,23 @@ MonoBehaviour:
   OnAllQuotasCompleted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1524862584}
         m_MethodName: DisplayWinScreen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1056614351}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1216,7 +1157,7 @@ GameObject:
   - component: {fileID: 588902313}
   - component: {fileID: 588902312}
   m_Layer: 0
-  m_Name: Line Behaviour
+  m_Name: Connector Line Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1234,7 +1175,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188760996}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &588902312
 LineRenderer:
@@ -1826,7 +1767,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188760996}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &943367625
 MonoBehaviour:
@@ -1843,7 +1784,7 @@ MonoBehaviour:
   OnMovesExhausted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1524862584}
         m_MethodName: DisplayLoseScreen
         m_Mode: 1
         m_Arguments:
@@ -1854,49 +1795,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &1035854202
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1035854203}
-  - component: {fileID: 1035854204}
-  m_Layer: 0
-  m_Name: Colour Palette
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1035854203
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1035854202}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 188760996}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1035854204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1035854202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b48c4dacfcde03488e6979bc18bad86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1056614351
 GameObject:
   m_ObjectHideFlags: 0
@@ -1908,7 +1806,7 @@ GameObject:
   - component: {fileID: 1056614352}
   - component: {fileID: 1056614353}
   m_Layer: 0
-  m_Name: Tile Grid Controller
+  m_Name: Tile Grid Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1941,6 +1839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilesParent: {fileID: 732610666}
+  GridLocked: 0
 --- !u!1 &1091836204
 GameObject:
   m_ObjectHideFlags: 0

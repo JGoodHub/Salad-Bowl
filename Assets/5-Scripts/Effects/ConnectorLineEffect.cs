@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LineBehaviour : Singleton<LineBehaviour>
+public class ConnectorLineEffect : Singleton<ConnectorLineEffect>
 {
 
     public LineRenderer lineRen;
