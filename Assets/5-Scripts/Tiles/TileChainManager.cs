@@ -5,27 +5,27 @@ using UnityEngine.Events;
 
 public class TileChainManager : Singleton<TileChainManager>
 {
-    private List<TileSelectionBehaviour> tileChain;
+    private List<TileBehaviour> tileChain;
     public float tileConsumptionInterval = 0.1f;
     public float tileDestructionDelay = 0.5f;
 
     // Events for add and remove
-    public UnityTileDataEvent OnTileAddedToChain;
-    public UnityTileDataEvent OnTileRemovedFromChain;
+    public UnityTileEvent OnTileAddedToChain;
+    public UnityTileEvent OnTileRemovedFromChain;
 
     // Key start and stop events
-    public UnityTileDataEvent OnTileChainStarted;
+    public UnityTileEvent OnTileChainStarted;
     public UnityTileArrayEvent OnTileChainConsumed;
     public UnityTileArrayEvent OnTileChainFailed;
     public UnityEvent OnTileChainDestroyed;
 
     private void Start()
     {
-        tileChain = new List<TileSelectionBehaviour>();
+        tileChain = new List<TileBehaviour>();
     }
 
     // Start a new tile chain with the passed tile
-    public void StartNewChainFromTile(TileSelectionBehaviour tile)
+    public void StartNewChainFromTile(TileBehaviour tile)
     {
         ClearChain();
 
@@ -35,7 +35,7 @@ public class TileChainManager : Singleton<TileChainManager>
     }
 
     // Add the tile passed to the existing chain or create one if none exists
-    public void AddTileToChain(TileSelectionBehaviour tile)
+    public void AddTileToChain(TileBehaviour tile)
     {
         // Validation checks
         Debug.Assert(tileChain != null, "Tile chain list is null");
@@ -48,7 +48,7 @@ public class TileChainManager : Singleton<TileChainManager>
                 if (tileChain.Count == 0 || tileChain[tileChain.Count - 1].type == tile.type)
                 {
                     tileChain.Add(tile);
-                    tile.SetSelectedState(true);
+                    tile.SelectionBehaviour.SetSelectedState(true);
 
                     OnTileAddedToChain?.Invoke(tile);
                 }
@@ -57,7 +57,7 @@ public class TileChainManager : Singleton<TileChainManager>
 
     }
 
-    public void TrimChainToTile(TileSelectionBehaviour tile)
+    public void TrimChainToTile(TileBehaviour tile)
     {
         // Validation checks
         Debug.Assert(tileChain != null, "Tile chain list is null");
@@ -73,8 +73,8 @@ public class TileChainManager : Singleton<TileChainManager>
                 }
                 else
                 {
-                    TileSelectionBehaviour removedTile = tileChain[i];
-                    removedTile.SetSelectedState(false);
+                    TileBehaviour removedTile = tileChain[i];
+                    removedTile.SelectionBehaviour.SetSelectedState(false);
                     tileChain.RemoveAt(i);
 
                     OnTileRemovedFromChain?.Invoke(removedTile);
@@ -125,7 +125,7 @@ public class TileChainManager : Singleton<TileChainManager>
     private void ClearChain()
     {
         for (int i = 0; i < tileChain.Count; i++)
-            tileChain[i].SetSelectedState(false);
+            tileChain[i].SelectionBehaviour.SetSelectedState(false);
 
         tileChain.Clear();
     }

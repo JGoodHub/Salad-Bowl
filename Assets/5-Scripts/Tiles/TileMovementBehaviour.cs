@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(TileSelectionBehaviour))]
 public class TileMovementBehaviour : MonoBehaviour
 {
+    public TileBehaviour ParentBehaviour { get => GetComponent<TileBehaviour>(); }
 
     public float averageSpeed;
     public AnimationCurve traversalCurve;
@@ -12,8 +13,8 @@ public class TileMovementBehaviour : MonoBehaviour
     public bool Moving { get; private set; }
     public Vector2Int GridRef { get; private set; }
 
-    public UnityTileDataEvent OnTileStartedMoving;
-    public UnityTileDataEvent OnTileFinishedMoving;
+    public UnityTileEvent OnTileStartedMoving;
+    public UnityTileEvent OnTileFinishedMoving;
 
     private void Awake()
     {
@@ -22,18 +23,15 @@ public class TileMovementBehaviour : MonoBehaviour
 
     public void MoveToGridRef(int x, int y, bool instant)
     {
-        MoveToGridRef(new Vector2Int(x, y), instant);
-    }
+        Vector2Int newGridRef = new Vector2Int(x, y);
 
-    public void MoveToGridRef(Vector2Int newGridRef, bool instant)
-    {
         if (GridRef.Equals(newGridRef))
             return;
 
         if (instant)
         {
-            transform.position = TileGridManager.Instance.GridToWorldSpace(newGridRef);
-            GridRef = newGridRef;
+            transform.position = TileGridManager.Instance.GridToWorldSpace(x, y, transform.parent.position.z);
+            GridRef = new Vector2Int(x, y);
         }
         else
         {
@@ -45,10 +43,10 @@ public class TileMovementBehaviour : MonoBehaviour
     private IEnumerator MoveToGridPositionCoroutine(Vector2Int newGridRef)
     {
         Moving = true;
-        OnTileStartedMoving?.Invoke(GetComponent<TileSelectionBehaviour>());
+        OnTileStartedMoving?.Invoke(ParentBehaviour);
 
-        Vector3 sourcePosition = TileGridManager.Instance.GridToWorldSpace(GridRef);
-        Vector3 targetPosition = TileGridManager.Instance.GridToWorldSpace(newGridRef);
+        Vector3 sourcePosition = TileGridManager.Instance.GridToWorldSpace(GridRef.x, GridRef.y, transform.parent.position.z);
+        Vector3 targetPosition = TileGridManager.Instance.GridToWorldSpace(newGridRef.x, newGridRef.y, transform.parent.position.z);
 
         float distance = Vector3.Distance(sourcePosition, targetPosition);
         float traversalTime = distance / averageSpeed;
@@ -65,7 +63,7 @@ public class TileMovementBehaviour : MonoBehaviour
         GridRef = newGridRef;
         transform.position = targetPosition;
 
-        OnTileFinishedMoving?.Invoke(GetComponent<TileSelectionBehaviour>());
+        OnTileFinishedMoving?.Invoke(ParentBehaviour);
     }
 
     public static Vector3 LerpUnclamped(Vector3 a, Vector3 b, float t)

@@ -14,7 +14,7 @@ public enum TileType
 }
 
 [CreateAssetMenu(fileName = "TileLoadouts", menuName = "ScriptableObjects/Create Tile Loadouts")]
-public class TileLoadoutsData : ScriptableObject
+public class TileData : ScriptableObject
 {
     [System.Serializable]
     public struct TileLoadout

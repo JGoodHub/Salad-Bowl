@@ -10,7 +10,7 @@ public class TileCounterUI : Singleton<TileCounterUI>
 
     private Dictionary<TileType, TileCounterEntry> counterEntries;
 
-    public void CreateAndPopulateQuotaEntries(LevelQuotaData.Quota[] quotas)
+    public void CreateAndPopulateQuotaEntries(LevelData.TileQuota[] quotas)
     {
         counterEntries = new Dictionary<TileType, TileCounterEntry>();
 
@@ -18,7 +18,7 @@ public class TileCounterUI : Singleton<TileCounterUI>
         {
             TileCounterEntry counterEntry = Instantiate(tileCounterPrefab, counterEntriesParent).GetComponent<TileCounterEntry>();
 
-            counterEntry.SetImage(GameCoordinator.Instance.TileLoadouts.GetLoadoutByType(quotas[i].type).image);
+            counterEntry.SetImage(GameCoordinator.Instance.TileData.GetLoadoutByType(quotas[i].type).image);
             counterEntry.SetCounter(0);
             counterEntry.SetTotal(quotas[i].target);
             counterEntry.SetCompleted(false);

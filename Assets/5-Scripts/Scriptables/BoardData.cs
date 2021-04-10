@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "BoardLayout", menuName = "ScriptableObjects/Create Board Layout")]
-public class BoardLayoutData : ScriptableObject
+public class BoardData : ScriptableObject
 {
     [Header("Board Size Parameters")]
     public int width;

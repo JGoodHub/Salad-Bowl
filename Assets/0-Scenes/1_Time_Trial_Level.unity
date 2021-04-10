@@ -308,6 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ce5c164a201ea4a8e2bd482548868b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dying: 0
   movesRemainingText: {fileID: 1134962444}
 --- !u!114 &49005651
 MonoBehaviour:
@@ -403,6 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 676b8ecfd39f6474c82a08397dacd190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dying: 0
   tileCounterPrefab: {fileID: 1387709541947068756, guid: 3cc97649e3e0bce468c83fc41b8b7f98,
     type: 3}
   counterEntriesParent: {fileID: 899727906}
@@ -641,7 +643,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188760996}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &161235730
 MonoBehaviour:
@@ -655,6 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9b4dbf61fb1ea4da9e29d1b64fa68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dying: 0
   tileConsumptionInterval: 0.1
   tileDestructionDelay: 0.5
   OnTileAddedToChain:
@@ -703,7 +706,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 588902311}
-  - {fileID: 196371664}
   - {fileID: 1056614352}
   - {fileID: 161235729}
   - {fileID: 529257101}
@@ -711,50 +713,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &196371663
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 196371664}
-  - component: {fileID: 196371665}
-  m_Layer: 0
-  m_Name: Plate Grid Generator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &196371664
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 196371663}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 188760996}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &196371665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 196371663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba4daf20517983e4b9a40356a57b7a71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plateParent: {fileID: 441699871}
 --- !u!1 &391065788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,7 +964,7 @@ GameObject:
   - component: {fileID: 529257101}
   - component: {fileID: 529257102}
   m_Layer: 0
-  m_Name: Tile Quota Manager
+  m_Name: Tile Quota Behaviour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1024,7 +982,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188760996}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &529257102
 MonoBehaviour:
@@ -1038,7 +996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac7b013e10e687f44abb1f7c9b3db276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelQuota: {fileID: 11400000, guid: 6355fbf5944a1cd4e9b103750baf8adc, type: 2}
+  dying: 0
   OnQuotaCompleted:
     m_PersistentCalls:
       m_Calls: []
@@ -1284,6 +1242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1c34d3e5d02284188a1a9514e8085b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dying: 0
   lineRen: {fileID: 588902312}
 --- !u!1 &732610665
 GameObject:
@@ -1315,6 +1274,75 @@ Transform:
   m_Father: {fileID: 1348291829}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &737994974
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566029349061087836, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
+        type: 3}
+      propertyPath: m_Name
+      value: Coordinators
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f76341cdba45bbf468d7a8d73d8c3ec4, type: 3}
 --- !u!1 &752721873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1767,7 +1795,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188760996}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &943367625
 MonoBehaviour:
@@ -1824,7 +1852,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 188760996}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1056614353
 MonoBehaviour:
@@ -1838,8 +1866,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0ff97e426dca3042b0493966a26dd9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dying: 0
+  platesParent: {fileID: 441699871}
   tilesParent: {fileID: 732610666}
-  GridLocked: 0
+  gridLocked: 0
 --- !u!1 &1091836204
 GameObject:
   m_ObjectHideFlags: 0

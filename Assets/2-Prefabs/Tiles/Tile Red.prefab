@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 1747187490725612811}
   - component: {fileID: 733877132452527049}
   - component: {fileID: 9137285773231943352}
+  - component: {fileID: 6081847887480626036}
   - component: {fileID: 2625027780862643372}
   - component: {fileID: 8257149284714506847}
   m_Layer: 0
@@ -246,7 +247,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2625027780862643372
+--- !u!114 &6081847887480626036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -255,7 +256,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1705125567866454088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38d18a40e16a30e4f83debad45d53627, type: 3}
+  m_Script: {fileID: 11500000, guid: 20f7c571b8be22a4a9e97c845b43e210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
@@ -274,6 +275,57 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTileConsumed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9137285773231943352}
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Shrink
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 733877132452527049}
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5903105043679341480}
+        m_MethodName: PlaySplatAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTileDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2625027780862643372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705125567866454088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d18a40e16a30e4f83debad45d53627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   OnTileSelected:
     m_PersistentCalls:
       m_Calls:
@@ -302,45 +354,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTileConsumed:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9137285773231943352}
-        m_MethodName: SetTrigger
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Shrink
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5903105043679341480}
-        m_MethodName: PlaySplatAnimation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 733877132452527049}
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnTileDestroyed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8257149284714506847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,7 +584,7 @@ PrefabInstance:
     - target: {fileID: 4426431134498266609, guid: 9b260fb083ffb7a4083cd41fd863f17f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.25
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4426431134498266609, guid: 9b260fb083ffb7a4083cd41fd863f17f,
         type: 3}

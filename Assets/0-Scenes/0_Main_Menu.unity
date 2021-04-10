@@ -1194,6 +1194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bee8f78f186334ba519dfc34b1f572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dying: 0
   levelButtonPrefab: {fileID: 1724492614471671307, guid: d721c0788e0e1304ba437a81aa0b23f5,
     type: 3}
   levelButtonContainer: {fileID: 1857407751}
@@ -2318,6 +2319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9c180506ef5e341b929d9fcfb24403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dying: 0
   menuSceneIndex: 0
   playSceneIndex: 1
 --- !u!4 &1374625361
@@ -2825,9 +2827,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67ef7c0846845d4e87335e095e33e5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardLayoutData: {fileID: 11400000, guid: d2ca0d4f8c6426a4fa26879f828ca179, type: 2}
-  tileLoadoutsData: {fileID: 11400000, guid: 8fc13c30b02eb1643a27f5e29cf64e81, type: 2}
-  levelQuotaData: {fileID: 11400000, guid: 6355fbf5944a1cd4e9b103750baf8adc, type: 2}
+  dying: 0
+  TileData: {fileID: 0}
+  LevelData: {fileID: 0}
 --- !u!1 &1912776095
 GameObject:
   m_ObjectHideFlags: 0
@@ -2871,13 +2873,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 411b7a9a89de423458389ce94f4e6ac2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dying: 0
   levels:
   - {fileID: 11400000, guid: 6355fbf5944a1cd4e9b103750baf8adc, type: 2}
-  - {fileID: 11400000, guid: 3d074a58e0876c64e98fafd10a39dcc6, type: 2}
-  - {fileID: 11400000, guid: 9e8f744cad2a28d44bcb76f922345389, type: 2}
-  - {fileID: 11400000, guid: 5cff6e27f82db924888ce7b105c1c5d2, type: 2}
-  - {fileID: 11400000, guid: e89b22b66dae15b44b722234ffa282d6, type: 2}
-  - {fileID: 11400000, guid: 204fcc69a1aed054a8519b2932c4bfb8, type: 2}
 --- !u!1001 &1943288895
 PrefabInstance:
   m_ObjectHideFlags: 0

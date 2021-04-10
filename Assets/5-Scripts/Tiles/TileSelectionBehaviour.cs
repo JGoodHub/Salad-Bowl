@@ -3,54 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-
+[RequireComponent(typeof(TileBehaviour))]
 public class TileSelectionBehaviour : MonoBehaviour
 {
+    public TileBehaviour ParentBehaviour { get => GetComponent<TileBehaviour>(); }
 
     // Tile state
-    public TileType type;
     private bool selected;
-    public List<TileSelectionBehaviour> adjacents = new List<TileSelectionBehaviour>();
 
     // Tile events
-    public UnityTileDataEvent OnTileInitalise;
-
-    public UnityTileDataEvent OnTileSelected;
-    public UnityTileDataEvent OnTileUnselected;
-
-    public UnityTileDataEvent OnTileConsumed;
-    public UnityTileDataEvent OnTileDestroyed;
-
-    private void Start()
-    {
-        OnTileInitalise?.Invoke(this);
-    }
+    public UnityTileEvent OnTileSelected;
+    public UnityTileEvent OnTileUnselected;
 
     // Start a new chain on this tile
     private void OnMouseDown()
     {
-        if (TileGridManager.Instance.GridLocked == false)
-            TileChainManager.Instance.StartNewChainFromTile(this);
+        if (TileGridManager.Instance.gridLocked == false)
+            TileChainManager.Instance.StartNewChainFromTile(ParentBehaviour);
     }
 
     private void OnMouseUp()
     {
-        if (TileGridManager.Instance.GridLocked == false)
+        if (TileGridManager.Instance.gridLocked == false)
             TileChainManager.Instance.ConsumeChain();
     }
 
     // Add or remove this tile based on its selected status
     private void OnMouseEnter()
     {
-        if (TileGridManager.Instance.GridLocked == false && Input.GetMouseButton(0))
+        if (TileGridManager.Instance.gridLocked == false && Input.GetMouseButton(0))
         {
             if (selected)
             {
-                TileChainManager.Instance.TrimChainToTile(this);
+                TileChainManager.Instance.TrimChainToTile(ParentBehaviour);
             }
             else
             {
-                TileChainManager.Instance.AddTileToChain(this);
+                TileChainManager.Instance.AddTileToChain(ParentBehaviour);
             }
         }
     }
@@ -68,23 +57,11 @@ public class TileSelectionBehaviour : MonoBehaviour
 
         if (selected)
         {
-            OnTileSelected?.Invoke(this);
+            OnTileSelected?.Invoke(ParentBehaviour);
         }
         else
         {
-            OnTileUnselected?.Invoke(this);
+            OnTileUnselected?.Invoke(ParentBehaviour);
         }
-    }
-
-    public void ConsumeTile()
-    {
-        OnTileConsumed?.Invoke(this);
-    }
-
-    public void DestroyTile()
-    {
-        OnTileDestroyed?.Invoke(this);
-
-        Destroy(gameObject);
     }
 }

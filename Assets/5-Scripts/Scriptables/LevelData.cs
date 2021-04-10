@@ -3,18 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelQuota", menuName = "ScriptableObjects/Create Level Quota")]
-public class LevelQuotaData : ScriptableObject
+public class LevelData : ScriptableObject
 {
+
     [System.Serializable]
-    public struct Quota
+    public struct TileQuota
     {
-        public string name;
         public TileType type;
         public int target;
     }
 
-    [Header("Colour Quotas")]
-    public Quota[] quotas;
+    [Header("Active Tiles")]
+    public TileType[] activeTiles;
+
+    [Header("Tile Quotas")]
+    public TileQuota[] tileQuotas;
+
+    [Header("Board Layout")]
+    public BoardData boardLayout;
 
     [Header("Limits & Bonuses")]
     public int moveLimit;
@@ -23,11 +29,11 @@ public class LevelQuotaData : ScriptableObject
 
     public int GetTargetForType(TileType type)
     {
-        for (int i = 0; i < quotas.Length; i++)
+        for (int i = 0; i < tileQuotas.Length; i++)
         {
-            if (quotas[i].type == type)
+            if (tileQuotas[i].type == type)
             {
-                return quotas[i].target;
+                return tileQuotas[i].target;
             }
         }
 

@@ -12,12 +12,12 @@ public class SplatEffect : MonoBehaviour
         Debug.Assert(spriteRen != null, "Sprite Renderer is null");
         Debug.Assert(animator != null, "Animator is null");
 
-        SetEffectColour(GetComponentInParent<TileSelectionBehaviour>().type);
+        SetEffectColour(GetComponentInParent<TileBehaviour>().type);
     }
 
     public void SetEffectColour(TileType tileColor)
     {
-        spriteRen.color = GameCoordinator.Instance.TileLoadouts.ConvertTileTypeToRGB(tileColor, true);
+        spriteRen.color = GameCoordinator.Instance.TileData.ConvertTileTypeToRGB(tileColor, true);
     }
 
     public void PlaySplatAnimation()

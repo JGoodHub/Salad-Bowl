@@ -7,7 +7,7 @@ public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
 {
     [Header("Level Profile")]
 
-    private LevelQuotaData levelQuota;
+    private LevelData levelQuota;
 
     private Dictionary<TileType, int> counters;
 
@@ -19,19 +19,19 @@ public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
 
     private void Start()
     {
-        levelQuota = GameCoordinator.Instance.LevelQuota;
+        levelQuota = GameCoordinator.Instance.LevelData;
 
-        TileCounterUI.Instance.CreateAndPopulateQuotaEntries(levelQuota.quotas);
+        TileCounterUI.Instance.CreateAndPopulateQuotaEntries(levelQuota.tileQuotas);
 
         TileChainManager.Instance.OnTileChainConsumed.AddListener(OnTileChainCompleted);
 
         counters = new Dictionary<TileType, int>();
-        for (int i = 0; i < levelQuota.quotas.Length; i++)
-            counters.Add(levelQuota.quotas[i].type, 0);
+        for (int i = 0; i < levelQuota.tileQuotas.Length; i++)
+            counters.Add(levelQuota.tileQuotas[i].type, 0);
     }
 
 
-    private void OnTileChainCompleted(TileSelectionBehaviour[] tileChain)
+    private void OnTileChainCompleted(TileBehaviour[] tileChain)
     {
         if (tileChain == null || tileChain.Length == 0 || counters.ContainsKey(tileChain[0].type) == false)
             return;

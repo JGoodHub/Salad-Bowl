@@ -10,6 +10,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     private static object lockObject = new object();
     private static T instance;
 
+    [HideInInspector] public bool dying;
+
     /// <summary>
     /// Access singleton instance through this propriety.
     /// </summary>
@@ -49,6 +51,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             Debug.Log($"Instance of Singleton |{typeof(T)}| already exists, destroying this copy '{gameObject.name}'", gameObject);
             Destroy(gameObject);
+            dying = true;
         }
     }
 

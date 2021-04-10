@@ -5,12 +5,12 @@ using UnityEngine;
 public class LevelSelectManager : Singleton<LevelSelectManager>
 {
 
-    public LevelQuotaData[] levels;
+    public LevelData[] levels;
 
 
     public void AssignLevelToCoordinator(int levelIndex)
     {
-        GameCoordinator.Instance.LevelQuota = levels[levelIndex];
+        GameCoordinator.Instance.LevelData = levels[levelIndex];
     }
 
 }

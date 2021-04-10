@@ -21,9 +21,9 @@ public class ConnectorLineEffect : Singleton<ConnectorLineEffect>
         TileChainManager.Instance.OnTileChainConsumed.AddListener(ResetLine);
     }
 
-    private void SetLineColour(TileSelectionBehaviour tile)
+    private void SetLineColour(TileBehaviour tile)
     {
-        SetLineColour(GameCoordinator.Instance.TileLoadouts.ConvertTileTypeToRGB(tile.type, true));
+        SetLineColour(GameCoordinator.Instance.TileData.ConvertTileTypeToRGB(tile.type, true));
     }
 
     public void SetLineColour(Color color)
@@ -31,19 +31,19 @@ public class ConnectorLineEffect : Singleton<ConnectorLineEffect>
         lineRen.sharedMaterial.color = color;
     }
 
-    private void AddTileToLine(TileSelectionBehaviour tile)
+    private void AddTileToLine(TileBehaviour tile)
     {
         linePositions.Add(tile.transform.position);
         UpdateLineRenderer();
     }
 
-    private void RemoveTileFromLine(TileSelectionBehaviour tile)
+    private void RemoveTileFromLine(TileBehaviour tile)
     {
         linePositions.Remove(tile.transform.position);
         UpdateLineRenderer();
     }
 
-    private void ResetLine(TileSelectionBehaviour[] tileChain)
+    private void ResetLine(TileBehaviour[] tileChain)
     {
         linePositions.Clear();
         lineRen.positionCount = 0;

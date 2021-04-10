@@ -5,36 +5,48 @@ using UnityEngine.Events;
 
 public class TileGridManager : Singleton<TileGridManager>
 {
-    public delegate void TileGridGenerated(TileSelectionBehaviour[,] tileGrid);
+    public delegate void TileGridGenerated(TileBehaviour[,] tileGrid);
     public event TileGridGenerated OnTileGridGenerated;
 
-    [Header("Board Parameters")]
+    [Header("Board Parents")]
+    public Transform platesParent;
     public Transform tilesParent;
-    private TileSelectionBehaviour[,] tileGrid;
 
-    private BoardLayoutData boardLayout;
+    private GameObject[,] plateGrid;
+    private TileBehaviour[,] tileGrid;
+
+    private BoardData boardLayout;
 
     private int tileMovingCount;
-    public bool GridLocked;
+    public bool gridLocked;
 
     private void Start()
     {
-        boardLayout = GameCoordinator.Instance.BoardLayout;
+        boardLayout = GameCoordinator.Instance.LevelData.boardLayout;
 
         Random.InitState(boardLayout.seed);
 
-        // Create the tile objects and place then on the grid
+        // Create the background plate objects
 
-        tileGrid = new TileSelectionBehaviour[boardLayout.width, boardLayout.height];
+        plateGrid = new GameObject[boardLayout.width, boardLayout.height];
 
         for (int y = 0; y < boardLayout.height; y++)
         {
             for (int x = 0; x < boardLayout.width; x++)
             {
-                TileSelectionBehaviour tileSelection = CreateNewTileAtGridRef(x, y);
-                TileMovementBehaviour tileMovement = tileSelection.GetComponent<TileMovementBehaviour>();
+                plateGrid[x, y] = CreatePlateAtGridRef(x, y);
+            }
+        }
 
-                tileGrid[x, y] = tileSelection;
+        // Create the tile objects and place then on the grid
+
+        tileGrid = new TileBehaviour[boardLayout.width, boardLayout.height];
+
+        for (int y = 0; y < boardLayout.height; y++)
+        {
+            for (int x = 0; x < boardLayout.width; x++)
+            {
+                tileGrid[x, y] = CreateTileAtGridRef(x, y);
             }
         }
 
@@ -109,38 +121,46 @@ public class TileGridManager : Singleton<TileGridManager>
             {
                 if (tileGrid[x, y] == null)
                 {
-                    tileGrid[x, y] = CreateNewTileAtGridRef(x, boardLayout.height + y);
+                    tileGrid[x, y] = CreateTileAtGridRef(x, boardLayout.height + y);
                     tileGrid[x, y].GetComponent<TileMovementBehaviour>().MoveToGridRef(x, y, false);
                 }
             }
         }
     }
 
-    public TileSelectionBehaviour CreateNewTileAtGridRef(int x, int y)
+    public GameObject CreatePlateAtGridRef(int x, int y)
+    {
+        GameObject plateObject = Instantiate(boardLayout.platePrefab, Vector3.zero, Quaternion.identity, platesParent);
+        plateObject.transform.position = GridToWorldSpace(x, y, platesParent.position.z);
+
+        return plateObject;
+    }
+
+    public TileBehaviour CreateTileAtGridRef(int x, int y)
     {
         GameObject tileObject = Instantiate(boardLayout.tilePrefabs[Random.Range(0, boardLayout.tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent);
+        tileObject.transform.position = GridToWorldSpace(x, y, tilesParent.position.z);
 
-        TileSelectionBehaviour tileSelection = tileObject.GetComponent<TileSelectionBehaviour>();
-        TileMovementBehaviour tileMovement = tileObject.GetComponent<TileMovementBehaviour>();
+        TileBehaviour tileBehaviour = tileObject.GetComponent<TileBehaviour>();
 
-        tileMovement.OnTileStartedMoving.AddListener(RegisterTileStartedMoving);
-        tileMovement.OnTileFinishedMoving.AddListener(RegisterTileStoppedMoving);
+        tileBehaviour.MovementBehaviour.OnTileStartedMoving.AddListener(RegisterTileStartedMoving);
+        tileBehaviour.MovementBehaviour.OnTileFinishedMoving.AddListener(RegisterTileStoppedMoving);
 
-        tileMovement.MoveToGridRef(x, y, true);
+        tileBehaviour.MovementBehaviour.MoveToGridRef(x, y, true);
 
-        return tileSelection;
+        return tileBehaviour;
     }
 
-    public Vector3 GridToWorldSpace(int x, int y)
+    public Vector3 GridToWorldSpace(int gridX, int gridY)
     {
-        return GridToWorldSpace(new Vector2Int(x, y));
+        return GridToWorldSpace(gridX, gridY, 0);
     }
 
-    public Vector3 GridToWorldSpace(Vector2Int gridRef)
+    public Vector3 GridToWorldSpace(int gridX, int gridY, float worldZ)
     {
-        float x = gridRef.x - (boardLayout.width / 2) + (boardLayout.width % 2 == 0 ? 0.5f : 0);
-        float y = gridRef.y - (boardLayout.height / 2) + (boardLayout.height % 2 == 0 ? 0.5f : 0);
-        return tilesParent.transform.position + (new Vector3(x, y, 0f) * boardLayout.spacing);
+        float worldX = gridX - (boardLayout.width / 2) + (boardLayout.width % 2 == 0 ? 0.5f : 0);
+        float worldY = gridY - (boardLayout.height / 2) + (boardLayout.height % 2 == 0 ? 0.5f : 0);
+        return tilesParent.transform.position + (new Vector3(worldX, worldY, worldZ) * boardLayout.spacing);
     }
 
     public bool IsWithinGrid(int x, int y)
@@ -148,18 +168,18 @@ public class TileGridManager : Singleton<TileGridManager>
         return x >= 0 && x < boardLayout.width && y >= 0 && y < boardLayout.height;
     }
 
-    public void OnTileChianDestroyed(TileSelectionBehaviour[] tileChain)
+    public void OnTileChianDestroyed(TileBehaviour[] tileChain)
     {
-        GridLocked = true;
+        gridLocked = true;
     }
 
-    private void RegisterTileStartedMoving(TileSelectionBehaviour tile)
+    private void RegisterTileStartedMoving(TileBehaviour tile)
     {
         tileMovingCount++;
-        GridLocked = true;
+        gridLocked = true;
     }
 
-    private void RegisterTileStoppedMoving(TileSelectionBehaviour tile)
+    private void RegisterTileStoppedMoving(TileBehaviour tile)
     {
         tileMovingCount--;
 
@@ -167,7 +187,7 @@ public class TileGridManager : Singleton<TileGridManager>
 
         if (tileMovingCount == 0)
         {
-            GridLocked = false;
+            gridLocked = false;
 
             RecalculateAdjacentTiles();
 
@@ -208,7 +228,7 @@ public class TileGridManager : Singleton<TileGridManager>
         {
             for (int x = 0; x < newGridRefs.GetLength(0); x++)
             {
-                tileGrid[x, y].GetComponent<TileMovementBehaviour>().MoveToGridRef(newGridRefs[x, y], false);
+                tileGrid[x, y].GetComponent<TileMovementBehaviour>().MoveToGridRef(newGridRefs[x, y].x, newGridRefs[x, y].y, false);
             }
         }
 
@@ -222,12 +242,12 @@ public class TileGridManager : Singleton<TileGridManager>
     /// <returns></returns>
     public bool CheckForValidChain(TileType type, int validLength)
     {
-        HashSet<TileSelectionBehaviour> closedSet = new HashSet<TileSelectionBehaviour>();
-        Queue<TileSelectionBehaviour> searchQueue = new Queue<TileSelectionBehaviour>();
-        Dictionary<TileSelectionBehaviour, int> tileLengths = new Dictionary<TileSelectionBehaviour, int>();
+        HashSet<TileBehaviour> closedSet = new HashSet<TileBehaviour>();
+        Queue<TileBehaviour> searchQueue = new Queue<TileBehaviour>();
+        Dictionary<TileBehaviour, int> tileLengths = new Dictionary<TileBehaviour, int>();
 
         int maxChainLength = 0;
-        foreach (TileSelectionBehaviour tile in tileGrid)
+        foreach (TileBehaviour tile in tileGrid)
         {
             if (tile.type != type || closedSet.Contains(tile))
                 continue;
@@ -239,9 +259,9 @@ public class TileGridManager : Singleton<TileGridManager>
 
             while (searchQueue.Count > 0)
             {
-                TileSelectionBehaviour searchTile = searchQueue.Dequeue();
+                TileBehaviour searchTile = searchQueue.Dequeue();
 
-                foreach (TileSelectionBehaviour adjacent in searchTile.adjacents)
+                foreach (TileBehaviour adjacent in searchTile.adjacents)
                 {
                     if (adjacent.type != type || closedSet.Contains(adjacent))
                         continue;
@@ -287,7 +307,7 @@ public class TileGridManager : Singleton<TileGridManager>
     /// </summary>
     private void OnDrawGizmos()
     {
-        boardLayout = GameCoordinator.Instance.BoardLayout;
+        boardLayout = GameCoordinator.Instance.LevelData.boardLayout;
 
         if (boardLayout == null)
             return;
@@ -298,7 +318,7 @@ public class TileGridManager : Singleton<TileGridManager>
             {
                 Gizmos.color = Color.red;
 
-                Gizmos.DrawWireSphere(GridToWorldSpace(new Vector2Int(x, y)), boardLayout.spacing / 2f);
+                Gizmos.DrawWireSphere(GridToWorldSpace(x, y), boardLayout.spacing / 2f);
             }
         }
     }

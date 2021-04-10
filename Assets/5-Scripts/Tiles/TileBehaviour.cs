@@ -4,14 +4,34 @@ using UnityEngine;
 
 public class TileBehaviour : MonoBehaviour
 {
-
     public TileSelectionBehaviour SelectionBehaviour { get; private set; }
     public TileMovementBehaviour MovementBehaviour { get; private set; }
 
-    private void Start()
+    public TileType type;
+    public List<TileBehaviour> adjacents = new List<TileBehaviour>();
+
+    public UnityTileEvent OnTileInitalise;
+
+    public UnityTileEvent OnTileConsumed;
+    public UnityTileEvent OnTileDestroyed;
+
+    private void Awake()
     {
         SelectionBehaviour = GetComponent<TileSelectionBehaviour>();
         MovementBehaviour = GetComponent<TileMovementBehaviour>();
+
+        OnTileInitalise?.Invoke(this);
     }
 
+    public void ConsumeTile()
+    {
+        OnTileConsumed?.Invoke(this);
+    }
+
+    public void DestroyTile()
+    {
+        OnTileDestroyed?.Invoke(this);
+
+        Destroy(gameObject);
+    }
 }

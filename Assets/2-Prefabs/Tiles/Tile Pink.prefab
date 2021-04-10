@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 7203744099453369351}
   - component: {fileID: 6785060741275760531}
   - component: {fileID: 7155423485140446482}
+  - component: {fileID: 1776250738800920683}
   - component: {fileID: 7023151119192020030}
   - component: {fileID: 8559919279581074906}
   m_Layer: 0
@@ -247,7 +248,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7023151119192020030
+--- !u!114 &1776250738800920683
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,7 +257,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3106832181626982125}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38d18a40e16a30e4f83debad45d53627, type: 3}
+  m_Script: {fileID: 11500000, guid: 20f7c571b8be22a4a9e97c845b43e210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: 5
@@ -275,6 +276,57 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTileConsumed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7155423485140446482}
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Shrink
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6785060741275760531}
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4961441594543718985}
+        m_MethodName: PlaySplatAnimation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTileDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7023151119192020030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3106832181626982125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d18a40e16a30e4f83debad45d53627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   OnTileSelected:
     m_PersistentCalls:
       m_Calls:
@@ -303,45 +355,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnTileConsumed:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7155423485140446482}
-        m_MethodName: SetTrigger
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Shrink
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4961441594543718985}
-        m_MethodName: PlaySplatAnimation
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6785060741275760531}
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnTileDestroyed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8559919279581074906
 MonoBehaviour:
   m_ObjectHideFlags: 0
