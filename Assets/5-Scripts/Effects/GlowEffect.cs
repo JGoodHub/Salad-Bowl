@@ -7,6 +7,9 @@ public class GlowEffect : MonoBehaviour
     public SpriteRenderer glowRenderer;
     public ParticleSystem glowParticleSys;
 
+    /// <summary>
+    /// Check for null components and set the effects colour
+    /// </summary>
     private void Awake()
     {
         Debug.Assert(glowRenderer != null, "Glow renderer is null");
@@ -15,6 +18,10 @@ public class GlowEffect : MonoBehaviour
         SetEffectColour(GetComponentInParent<TileBehaviour>().type);
     }
 
+    /// <summary>
+    /// Set the particle system colour
+    /// </summary>
+    /// <param name="tileType">The TileType to extract the colour from</param>
     public void SetEffectColour(TileType tileType)
     {
         Color colorRGB = GameCoordinator.Instance.TileData.ConvertTileTypeToRGB(tileType, true);

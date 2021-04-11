@@ -37,6 +37,9 @@ public class TileData : ScriptableObject
 
     public TileLoadout[] loadouts;
 
+    /// <summary>
+    /// Initialise the default tile types and colours
+    /// </summary>
     private void Reset()
     {
         loadouts = new TileLoadout[6];

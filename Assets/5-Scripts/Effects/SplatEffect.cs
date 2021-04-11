@@ -7,6 +7,9 @@ public class SplatEffect : MonoBehaviour
     public SpriteRenderer spriteRen;
     public Animator animator;
 
+    /// <summary>
+    /// Check for null components and set the effects colour
+    /// </summary>
     private void Awake()
     {
         Debug.Assert(spriteRen != null, "Sprite Renderer is null");
@@ -15,13 +18,20 @@ public class SplatEffect : MonoBehaviour
         SetEffectColour(GetComponentInParent<TileBehaviour>().type);
     }
 
+    /// <summary>
+    /// Set the sprites colour
+    /// </summary>
+    /// <param name="tileType">The TileType to extract the colour from</param>
     public void SetEffectColour(TileType tileColor)
     {
         spriteRen.color = GameCoordinator.Instance.TileData.ConvertTileTypeToRGB(tileColor, true);
     }
 
+    /// <summary>
+    /// Trigger the spitesheet animation to play
+    /// </summary>
     public void PlaySplatAnimation()
     {
-        animator.SetTrigger("SplatTrigger");
+        animator.SetTrigger("Splat");
     }
 }

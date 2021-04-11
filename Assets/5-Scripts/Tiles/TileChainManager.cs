@@ -57,6 +57,7 @@ public class TileChainManager : Singleton<TileChainManager>
 
     }
 
+    // Trim the chain back to until it encounters the given tile
     public void TrimChainToTile(TileBehaviour tile)
     {
         // Validation checks
@@ -83,6 +84,7 @@ public class TileChainManager : Singleton<TileChainManager>
         }
     }
 
+    // COnsume the chain and destroy each of the tiles in it
     public void ConsumeChain()
     {
         // Validation checks

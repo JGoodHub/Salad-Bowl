@@ -5,18 +5,25 @@ using UnityEngine.UI;
 
 public class EndGameUI : MonoBehaviour
 {
-
+    [Header("Win Panel Elements")]
     public GameObject winScreen;
     public GameObject nextLevelButton;
 
+    [Header("Lose Panel Elements")]
     public GameObject loseScreen;
 
+    /// <summary>
+    /// Hide both win and lose screens
+    /// </summary>
     private void Start()
     {
         winScreen.SetActive(false);
         loseScreen.SetActive(false);
     }
 
+    /// <summary>
+    /// DIsplay the win screen if the lose screen isn't already active
+    /// </summary>
     public void DisplayWinScreen()
     {
         if (loseScreen.activeSelf == true)
@@ -30,6 +37,9 @@ public class EndGameUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Display the lose screen if the win screen isn't already active
+    /// </summary>
     public void DisplayLoseScreen()
     {
         if (winScreen.activeSelf == true)
@@ -38,17 +48,17 @@ public class EndGameUI : MonoBehaviour
         loseScreen.SetActive(true);
     }
 
-    public void ReturnToMenu()
+    public void LoadMenuScene()
     {
         SceneCoordinator.Instance.LaunchMenuScene();
     }
 
-    public void RetryLevel()
+    public void ReloadLevel()
     {
         SceneCoordinator.Instance.ReloadCurrentScene();
     }
 
-    public void NextNevel()
+    public void LoadNextLevel()
     {
         GameCoordinator.Instance.LevelIndex++;
         SceneCoordinator.Instance.ReloadCurrentScene();

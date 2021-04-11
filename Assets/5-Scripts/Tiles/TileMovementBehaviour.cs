@@ -26,6 +26,9 @@ public class TileMovementBehaviour : MonoBehaviour
         MoveToGridRef(gridRef.x, gridRef.y, instant);
     }
 
+    /// <summary>
+    /// Move the tile to the world position of the given grid reference
+    /// </summary>
     public void MoveToGridRef(int x, int y, bool instant)
     {
         Vector2Int newGridRef = new Vector2Int(x, y);
@@ -43,8 +46,15 @@ public class TileMovementBehaviour : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Coroutine animation to move the tile to the new grid reference
+    /// </summary>
+    /// <param name="newGridRef"></param>
+    /// <returns></returns>
     private IEnumerator MoveToGridRefCoroutine(Vector2Int newGridRef)
     {
+        // Check if the positions are equal already
+
         Vector3 sourcePosition = transform.position;
         Vector3 targetPosition = TileGridManager.Instance.GridToWorldSpace(newGridRef.x, newGridRef.y, transform.parent.position.z);
 
@@ -55,6 +65,8 @@ public class TileMovementBehaviour : MonoBehaviour
 
         Moving = true;
         OnTileStartedMoving?.Invoke(ParentBehaviour);
+
+        // Move to the next world position using the animation curve to control the speed
 
         float distance = Vector3.Distance(sourcePosition, targetPosition);
         float traversalTime = distance / averageSpeed;

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb6ef6f97e7f8964ea299076af175753, type: 3}
+  m_Name: HoleBoardLayout
+  m_EditorClassIdentifier: 
+  width: 6
+  height: 6
+  spacing: 1.2
+  seed: 0
+  randomiseSeed: 1
+  platePrefab: {fileID: 4350133075397374716, guid: 6ae8e82646ff88e43b4d1b293485e2ad,
+    type: 3}
+  tilePrefabs:
+  - {fileID: 1705125567866454088, guid: a9b50013410f19644bf426fee881bc53, type: 3}
+  - {fileID: 5057764397673134362, guid: 2a2170531ea85f04997d7abce257e2ab, type: 3}
+  - {fileID: 1853043260819554952, guid: 946006a583dde4846bb66af947c1cdd8, type: 3}
+  - {fileID: 225576899449716471, guid: f8f9929dcdffdc64999d58ee97229760, type: 3}
+  - {fileID: 8554706470027714941, guid: 1259fbc3998a8be4f86bb4a4442b6cce, type: 3}
+  - {fileID: 3106832181626982125, guid: 925c205f64ef49f45bef9e84a190c787, type: 3}
+  toggleGridEditor: 010101010101010101010101010100000101010100000101010101010101010101010101

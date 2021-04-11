@@ -9,7 +9,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: SplatTrigger
+    m_ConditionEvent: Splat
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2290604599000393463}
@@ -59,7 +59,7 @@ AnimatorController:
   m_Name: SplatEffectController
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: SplatTrigger
+  - m_Name: Splat
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0

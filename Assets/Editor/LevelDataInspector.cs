@@ -6,13 +6,15 @@ using UnityEngine;
 [CustomEditor(typeof(LevelData))]
 public class LevelDataInspector : CustomInspector
 {
+    private LevelData levelData;
     private TileData tileData;
+    private string[] tileNames;
 
-    public override void OnInspectorGUI()
+    private void Awake()
     {
-        LevelData levelData = (LevelData)target;
+        levelData = (LevelData)target;
 
-        string[] tileNames = System.Enum.GetNames(typeof(TileType));
+        tileNames = System.Enum.GetNames(typeof(TileType));
 
         if (tileData == null)
         {
@@ -43,6 +45,10 @@ public class LevelDataInspector : CustomInspector
         }
 
 
+    }
+
+    public override void OnInspectorGUI()
+    {
         GUI.color = Color.white;
 
         if (GUILayout.Button("Reset All"))
@@ -102,10 +108,15 @@ public class LevelDataInspector : CustomInspector
 
         #endregion
 
+        #region Board Layout
+
+        DrawTitle("Board Layout");
+
+        levelData.boardLayout = EditorGUILayout.ObjectField("Board Layout:", levelData.boardLayout, typeof(BoardData), false) as BoardData;
+
+        #endregion
+
         GUI.color = Color.white;
     }
-
-
-
 
 }

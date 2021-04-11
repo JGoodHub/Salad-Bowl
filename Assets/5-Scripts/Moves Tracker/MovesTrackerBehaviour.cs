@@ -20,6 +20,10 @@ public class MovesTrackerBehaviour : MonoBehaviour
         MovesTrackerUI.Instance.SetMovesRemaining(movesRemaining);
     }
 
+    /// <summary>
+    /// Decrement the remaining moves and update the UI
+    /// </summary>
+    /// <param name="tilechain"></param>
     private void DecrementMovesCounter(TileBehaviour[] tilechain)
     {
         movesRemaining--;

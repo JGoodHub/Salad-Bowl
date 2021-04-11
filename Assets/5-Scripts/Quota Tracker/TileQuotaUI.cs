@@ -10,6 +10,10 @@ public class TileQuotaUI : Singleton<TileQuotaUI>
 
     private Dictionary<TileType, TileQuotaEntry> counterEntries;
 
+    /// <summary>
+    /// Create and initialise entries for each of the levels tile quotas
+    /// </summary>
+    /// <param name="quotas"></param>
     public void CreateAndPopulateQuotaEntries(LevelData.TileQuota[] quotas)
     {
         counterEntries = new Dictionary<TileType, TileQuotaEntry>();
@@ -30,6 +34,11 @@ public class TileQuotaUI : Singleton<TileQuotaUI>
         }
     }
 
+    /// <summary>
+    /// Update the counter text for the quota counter
+    /// </summary>
+    /// <param name="type">The quota type to update</param>
+    /// <param name="newCount">The new value to use</param>
     public void SetCounterForType(TileType type, int newCount)
     {
         if (counterEntries.ContainsKey(type) == false)
@@ -38,6 +47,11 @@ public class TileQuotaUI : Singleton<TileQuotaUI>
         counterEntries[type].SetCounter(newCount);
     }
 
+    /// <summary>
+    /// Set the completed state of the quota
+    /// </summary>
+    /// <param name="type">The quota type to update</param>
+    /// <param name="complete">The completion state</param>
     public void SetCompletetionForType(TileType type, bool complete)
     {
         if (counterEntries.ContainsKey(type) == false)
@@ -45,6 +59,5 @@ public class TileQuotaUI : Singleton<TileQuotaUI>
 
         counterEntries[type].SetCompleted(complete);
     }
-
 
 }

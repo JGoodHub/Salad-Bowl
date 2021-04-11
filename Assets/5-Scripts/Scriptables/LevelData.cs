@@ -32,19 +32,9 @@ public class LevelData : ScriptableObject
     public int moveLimit;
     public int completionBonus;
 
-    public int GetTargetForType(TileType type)
-    {
-        for (int i = 0; i < tileQuotas.Length; i++)
-        {
-            if (tileQuotas[i].type == type)
-            {
-                return tileQuotas[i].target;
-            }
-        }
-
-        return 0;
-    }
-
+    /// <summary>
+    /// Set the tile arrays to match the same length of the tile type enum if they don't match
+    /// </summary>
     public void Reset()
     {
         string[] tileNames = System.Enum.GetNames(typeof(TileType));
@@ -69,6 +59,10 @@ public class LevelData : ScriptableObject
         completionBonus = 0;
     }
 
+    /// <summary>
+    /// Get the list of tiles to be used in this level
+    /// </summary>
+    /// <returns>List of tile types used</returns>
     public TileType[] GetActiveTypes()
     {
         List<TileType> activeTiles = new List<TileType>();
@@ -83,4 +77,23 @@ public class LevelData : ScriptableObject
 
         return activeTiles.ToArray();
     }
+
+    /// <summary>
+    /// Get the target number of needed for the tile quota
+    /// </summary>
+    /// <param name="type">The quota type to search for</param>
+    /// <returns>The target for the quota</returns>
+    public int GetTargetForType(TileType type)
+    {
+        for (int i = 0; i < tileQuotas.Length; i++)
+        {
+            if (tileQuotas[i].type == type)
+            {
+                return tileQuotas[i].target;
+            }
+        }
+
+        return 0;
+    }
+
 }

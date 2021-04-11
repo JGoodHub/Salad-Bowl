@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 225c246c3c8ba614daf6570ff49f5ab6, type: 3}
-  m_Name: Level 5
+  m_Name: Level 8
   m_EditorClassIdentifier: 
   tileStates:
   - type: 0
@@ -22,22 +22,22 @@ MonoBehaviour:
   - type: 3
     isActive: 1
   - type: 4
-    isActive: 1
+    isActive: 0
   - type: 5
-    isActive: 1
+    isActive: 0
   tileQuotas:
   - type: 0
-    target: 5
+    target: 10
   - type: 1
-    target: 5
+    target: 10
   - type: 2
-    target: 5
+    target: 10
   - type: 3
-    target: 5
+    target: 10
   - type: 4
-    target: 5
+    target: 0
   - type: 5
     target: 0
   boardLayout: {fileID: 11400000, guid: d2ca0d4f8c6426a4fa26879f828ca179, type: 2}
-  moveLimit: 20
+  moveLimit: 25
   completionBonus: 0

@@ -14,7 +14,6 @@ public class UIImageLooper : MonoBehaviour
     public float rotateSpeedMin;
     public float rotateSpeedMax;
     private float rotateSpeed;
-    //public AnimationCurve traversalCurve;
 
     private void Start()
     {
@@ -26,10 +25,15 @@ public class UIImageLooper : MonoBehaviour
         rotateSpeed = Random.Range(rotateSpeedMin, rotateSpeedMax);
     }
 
+    /// <summary>
+    /// Translate and rotate the transform
+    /// </summary>
     private void Update()
     {
         rectTransform.anchoredPosition += Vector2.down * fallSpeed * Time.deltaTime;
         rectTransform.Rotate(Vector3.forward, rotateSpeed * Time.deltaTime);
+
+        // Wrap the position of the transform if its beyond the despawn boundary
 
         if (rectTransform.anchoredPosition.y <= despawnBoundY)
         {

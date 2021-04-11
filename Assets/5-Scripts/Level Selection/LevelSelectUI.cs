@@ -11,13 +11,18 @@ public class LevelSelectUI : Singleton<LevelSelectUI>
 
     private GameObject[] levelButtons;
 
+    /// <summary>
+    /// Create a button for each of the levels loaded into the GameCoordinator
+    /// </summary>
     private void Start()
     {
+        // Clear any existing children of the parent
         for (int c = 0; c < levelButtonContainer.childCount; c++)
         {
             Destroy(levelButtonContainer.GetChild(c).gameObject);
         }
 
+        //Create a button for each level and set its callback to launch the game scene
         levelButtons = new GameObject[GameCoordinator.Instance.Levels.Length];
         for (int i = 0; i < GameCoordinator.Instance.Levels.Length; i++)
         {
@@ -38,6 +43,9 @@ public class LevelSelectUI : Singleton<LevelSelectUI>
         }
     }
 
+    /// <summary>
+    /// Show the game mode panel
+    /// </summary>
     public void BackToGamemodeSelection()
     {
         MainMenuPanelManager.Instance.SetActivePanel(MainMenuPanelManager.Panels.GAMEMODE_SELECT);

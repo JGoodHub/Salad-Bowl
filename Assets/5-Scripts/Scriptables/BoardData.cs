@@ -19,10 +19,14 @@ public class BoardData : ScriptableObject
     public GameObject platePrefab;
     public GameObject[] tilePrefabs;
 
+    // Editor uses a 1D version of the toggle grid due to multidimensional arrays not being serialisable in the inspector
     [Header("Tile Activations")]
     [HideInInspector] public bool[] toggleGridEditor;
     public bool[,] enabledSquaresGrid;
 
+    /// <summary>
+    /// Set the random seed and fill out the squares enabled grid
+    /// </summary>
     public void Init()
     {
         if (randomiseSeed)
@@ -34,6 +38,9 @@ public class BoardData : ScriptableObject
         Convert1DToggleGridTo2D();
     }
 
+    /// <summary>
+    /// Reset the space enabled grid to true
+    /// </summary>
     public void ResetToggleGrid()
     {
         toggleGridEditor = new bool[width * height];
@@ -44,6 +51,9 @@ public class BoardData : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// Fill out the 2D version of the squares enabled grid using the 1D equivalent
+    /// </summary>
     private void Convert1DToggleGridTo2D()
     {
         enabledSquaresGrid = new bool[width, height];
@@ -60,6 +70,11 @@ public class BoardData : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// Get the prefab associated with the tile type
+    /// </summary>
+    /// <param name="type">The tile type of search for</param>
+    /// <returns>The tile game object for the passed tile type</returns>
     public GameObject GetPrefabForType(TileType type)
     {
         for (int i = 0; i < tilePrefabs.Length; i++)

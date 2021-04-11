@@ -14,6 +14,9 @@ public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
     public UnityTileTypeEvent OnQuotaCompleted;
     public UnityEvent OnAllQuotasCompleted;
 
+    /// <summary>
+    /// Subscribe to tile chain events and create a counter for each of the tile types
+    /// </summary>
     private void Start()
     {
         level = GameCoordinator.Instance.ActiveLevel;
@@ -30,6 +33,10 @@ public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
         }
     }
 
+    /// <summary>
+    /// When a tile chain is completed add those tiles to the counter and check if the quota is fulfilled and fire the associated event
+    /// </summary>
+    /// <param name="tileChain"></param>
     private void OnTileChainCompleted(TileBehaviour[] tileChain)
     {
         if (tileChain == null || tileChain.Length == 0 || counters.ContainsKey(tileChain[0].type) == false)
@@ -49,6 +56,9 @@ public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
         }
     }
 
+    /// <summary>
+    /// Check if a quotas have been fulfilled and fire the associated event
+    /// </summary>
     private void OnTileChainDestroyed()
     {
         bool allComplete = true;
