@@ -5,20 +5,8 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(BoardData))]
-public class BoardDataInspector : Editor
+public class BoardDataInspector : CustomInspector
 {
-    private GUIStyle sectionHeader;
-    private GUIStyle buttonGreen;
-    private GUIStyle buttonRed;
-
-    private void Awake()
-    {
-        sectionHeader = new GUIStyle(EditorStyles.boldLabel);
-        sectionHeader.fontSize = 16;
-        sectionHeader.normal.textColor = Color.white;
-        sectionHeader.alignment = TextAnchor.MiddleCenter;
-    }
-
     public override void OnInspectorGUI()
     {
         GUI.color = Color.white;
@@ -131,25 +119,8 @@ public class BoardDataInspector : Editor
         }
 
         #endregion
+
+        GUI.color = Color.white;
     }
 
-    private void DrawTitle(string headerText)
-    {
-        EditorGUILayout.Space();
-
-        EditorGUILayout.LabelField(headerText, sectionHeader);
-        Rect labelRect = GUILayoutUtility.GetLastRect();
-
-        labelRect.yMin = labelRect.yMin - 4;
-        labelRect.yMax = labelRect.yMax + 5;
-
-        Texture2D lineTex = new Texture2D(1, 1);
-        lineTex.SetPixel(0, 0, Color.black);
-        lineTex.wrapMode = TextureWrapMode.Repeat;
-        lineTex.Apply();
-
-        GUI.Box(labelRect, lineTex);
-
-        EditorGUILayout.Space();
-    }
 }

@@ -27,7 +27,9 @@ public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
 
         counters = new Dictionary<TileType, int>();
         for (int i = 0; i < levelQuota.tileQuotas.Length; i++)
+        {
             counters.Add(levelQuota.tileQuotas[i].type, 0);
+        }
     }
 
 

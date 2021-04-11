@@ -5,6 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LevelQuota", menuName = "ScriptableObjects/Create Level Quota")]
 public class LevelData : ScriptableObject
 {
+    [System.Serializable]
+    public struct TileState
+    {
+        public TileType type;
+        public bool isActive;
+    }
 
     [System.Serializable]
     public struct TileQuota
@@ -13,8 +19,8 @@ public class LevelData : ScriptableObject
         public int target;
     }
 
-    [Header("Active Tiles")]
-    public TileType[] activeTiles;
+    [Header("Active Tile Toggles")]
+    public TileState[] tileStates;
 
     [Header("Tile Quotas")]
     public TileQuota[] tileQuotas;
@@ -37,5 +43,44 @@ public class LevelData : ScriptableObject
         }
 
         return 0;
+    }
+
+    public void Reset()
+    {
+        string[] tileNames = System.Enum.GetNames(typeof(TileType));
+
+        tileStates = new TileState[tileNames.Length];
+
+        for (int i = 0; i < tileStates.Length; i++)
+        {
+            tileStates[i].type = (TileType)i;
+            tileStates[i].isActive = true;
+        }
+
+        tileQuotas = new TileQuota[tileNames.Length];
+
+        for (int i = 0; i < tileQuotas.Length; i++)
+        {
+            tileQuotas[i].type = (TileType)i;
+            tileQuotas[i].target = 0;
+        }
+
+        moveLimit = 25;
+        completionBonus = 0;
+    }
+
+    public TileType[] GetActiveTiles()
+    {
+        List<TileType> activeTiles = new List<TileType>();
+
+        for (int i = 0; i < tileStates.Length; i++)
+        {
+            if (tileStates[i].isActive == true)
+            {
+                activeTiles.Add(tileStates[i].type);
+            }
+        }
+
+        return activeTiles.ToArray();
     }
 }

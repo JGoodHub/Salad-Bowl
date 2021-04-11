@@ -537,7 +537,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.745, g: 0.745, b: 0.745, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1961,8 +1961,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -876}
-  m_SizeDelta: {x: 0, y: -1751.9952}
+  m_AnchoredPosition: {x: 0, y: -912}
+  m_SizeDelta: {x: 0, y: -1824.0001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &644365463
 MonoBehaviour:
@@ -3987,10 +3987,13 @@ MonoBehaviour:
   dying: 0
   gamemodeText: {fileID: 1360696626}
   previewImageTransform: {fileID: 1589137712}
-  comingSoonBannerObject: {fileID: 464940306}
+  leftButton: {fileID: 1290357225}
+  rightButton: {fileID: 1214207010}
   availableColor: {r: 1, g: 1, b: 1, a: 1}
   comingSoonColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  exitSpeed: 1000
+  comingSoonBannerObject: {fileID: 464940306}
+  playButton: {fileID: 114368862}
+  exitSpeed: 1200
   exitCurve:
     serializedVersion: 2
     m_Curve:
@@ -4016,7 +4019,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   waitTime: 0
-  enterSpeed: 1000
+  enterSpeed: 1200
   enterCurve:
     serializedVersion: 2
     m_Curve:
@@ -6688,7 +6691,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -252}
+  m_AnchoredPosition: {x: 0, y: -324}
   m_SizeDelta: {x: 0, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2070573661
@@ -7023,8 +7026,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 624}
-  m_SizeDelta: {x: 0, y: -1248.0028}
+  m_AnchoredPosition: {x: 0, y: 588.00037}
+  m_SizeDelta: {x: 0, y: -1176.0005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2111490453
 MonoBehaviour:

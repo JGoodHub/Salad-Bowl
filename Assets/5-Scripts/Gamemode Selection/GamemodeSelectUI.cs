@@ -7,17 +7,23 @@ using TMPro;
 public class GamemodeSelectUI : Singleton<GamemodeSelectUI>
 {
 
+    [Header("UI Elements")]
+
     public TextMeshProUGUI gamemodeText;
     public RectTransform previewImageTransform;
-    public GameObject comingSoonBannerObject;
 
     public GameObject leftButton;
     public GameObject rightButton;
 
+    [Header("Availability Elements")]
+
     public Color availableColor;
     public Color comingSoonColor;
 
-    private Vector2 sourcePosition;
+    public GameObject comingSoonBannerObject;
+    public Button playButton;
+
+    [Header("Animation Parameters")]
 
     public float exitSpeed;
     public AnimationCurve exitCurve;
@@ -28,6 +34,7 @@ public class GamemodeSelectUI : Singleton<GamemodeSelectUI>
     public AnimationCurve enterCurve;
 
     private int gamemodeIndex;
+    private Vector2 sourcePosition;
 
     private void Start()
     {
@@ -88,6 +95,7 @@ public class GamemodeSelectUI : Singleton<GamemodeSelectUI>
         gamemodeText.text = gamemode.name;
 
         comingSoonBannerObject.SetActive(!gamemode.available);
+        playButton.interactable = gamemode.available;
 
         traversalTime = distance / enterSpeed;
         t = 0;
