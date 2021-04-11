@@ -12,41 +12,39 @@ public class TileGridManager : Singleton<TileGridManager>
     public Transform platesParent;
     public Transform tilesParent;
 
-    private GameObject[,] plateGrid;
     private TileBehaviour[,] tileGrid;
 
-    private BoardData boardLayout;
+    private List<Vector2Int> enabledGridRefs;
+
+    private BoardData board;
 
     private int tileMovingCount;
     public bool gridLocked;
 
     private void Start()
     {
-        boardLayout = GameCoordinator.Instance.LevelData.boardLayout;
+        board = GameCoordinator.Instance.LevelData.boardLayout;
 
-        Random.InitState(boardLayout.seed);
+        Random.InitState(board.seed);
 
         // Create the background plate objects
-
-        plateGrid = new GameObject[boardLayout.width, boardLayout.height];
-
-        for (int y = 0; y < boardLayout.height; y++)
-        {
-            for (int x = 0; x < boardLayout.width; x++)
-            {
-                plateGrid[x, y] = CreatePlateAtGridRef(x, y);
-            }
-        }
-
         // Create the tile objects and place then on the grid
 
-        tileGrid = new TileBehaviour[boardLayout.width, boardLayout.height];
+        ClearAndFillPlateGrid();
 
-        for (int y = 0; y < boardLayout.height; y++)
+        enabledGridRefs = new List<Vector2Int>();
+        tileGrid = new TileBehaviour[board.width, board.height];
+
+        for (int y = 0; y < board.height; y++)
         {
-            for (int x = 0; x < boardLayout.width; x++)
+            for (int x = 0; x < board.width; x++)
             {
-                tileGrid[x, y] = CreateTileAtGridRef(x, y);
+                if (board.enabledSquaresGrid[x, y] == true)
+                {
+                    SetTile(x, y, CreateTileAtGridRef(x, y));
+
+                    enabledGridRefs.Add(new Vector2Int(x, y));
+                }
             }
         }
 
@@ -55,74 +53,25 @@ public class TileGridManager : Singleton<TileGridManager>
 
         OnTileGridGenerated?.Invoke(tileGrid);
 
-        TileChainManager.Instance.OnTileChainConsumed.AddListener(OnTileChianDestroyed);
-        TileChainManager.Instance.OnTileChainDestroyed.AddListener(CheckForGapsInStacks);
+        TileChainManager.Instance.OnTileChainDestroyed.AddListener(OnTileChainDestroyed);
     }
 
-    public void RecalculateAdjacentTiles()
+    #region Object Creation
+
+    public void ClearAndFillPlateGrid()
     {
-        for (int y = 0; y < boardLayout.height; y++)
+        for (int c = 0; c < platesParent.childCount; c++)
         {
-            for (int x = 0; x < boardLayout.width; x++)
-            {
-                tileGrid[x, y].adjacents.Clear();
-
-                for (int yOff = -1; yOff <= 1; yOff++)
-                {
-                    for (int xOff = -1; xOff <= 1; xOff++)
-                    {
-                        if (xOff == 0 && yOff == 0)
-                            continue;
-
-                        if (IsWithinGrid(x + xOff, y + yOff) == false)
-                            continue;
-
-                        if (tileGrid[x, y] == null || tileGrid[x + xOff, y + yOff] == null)
-                            continue;
-
-                        tileGrid[x, y].adjacents.Add(tileGrid[x + xOff, y + yOff]);
-                    }
-                }
-            }
-        }
-    }
-
-    private void CheckForGapsInStacks()
-    {
-        for (int x = 0; x < tileGrid.GetLength(0); x++)
-        {
-            for (int currY = 1; currY < tileGrid.GetLength(1); currY++)
-            {
-                if (tileGrid[x, currY] == null)
-                    continue;
-
-                for (int newY = 0; newY < currY; newY++)
-                {
-                    if (tileGrid[x, newY] == null)
-                    {
-                        tileGrid[x, newY] = tileGrid[x, currY];
-                        tileGrid[x, currY] = null;
-
-                        tileGrid[x, newY].GetComponent<TileMovementBehaviour>().MoveToGridRef(x, newY, false);
-                        break;
-                    }
-                }
-            }
+            Destroy(platesParent.GetChild(c).gameObject);
         }
 
-        FillEmptyGaps();
-    }
-
-    private void FillEmptyGaps()
-    {
-        for (int x = 0; x < tileGrid.GetLength(0); x++)
+        for (int y = 0; y < board.height; y++)
         {
-            for (int y = 0; y < tileGrid.GetLength(1); y++)
+            for (int x = 0; x < board.width; x++)
             {
-                if (tileGrid[x, y] == null)
+                if (board.enabledSquaresGrid[x, y] == true)
                 {
-                    tileGrid[x, y] = CreateTileAtGridRef(x, boardLayout.height + y);
-                    tileGrid[x, y].GetComponent<TileMovementBehaviour>().MoveToGridRef(x, y, false);
+                    CreatePlateAtGridRef(x, y);
                 }
             }
         }
@@ -130,7 +79,7 @@ public class TileGridManager : Singleton<TileGridManager>
 
     public GameObject CreatePlateAtGridRef(int x, int y)
     {
-        GameObject plateObject = Instantiate(boardLayout.platePrefab, Vector3.zero, Quaternion.identity, platesParent);
+        GameObject plateObject = Instantiate(board.platePrefab, Vector3.zero, Quaternion.identity, platesParent);
         plateObject.transform.position = GridToWorldSpace(x, y, platesParent.position.z);
 
         return plateObject;
@@ -138,39 +87,29 @@ public class TileGridManager : Singleton<TileGridManager>
 
     public TileBehaviour CreateTileAtGridRef(int x, int y)
     {
-        GameObject tileObject = Instantiate(boardLayout.tilePrefabs[Random.Range(0, boardLayout.tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent);
+        GameObject tileObject = Instantiate(board.tilePrefabs[Random.Range(0, board.tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent);
         tileObject.transform.position = GridToWorldSpace(x, y, tilesParent.position.z);
 
-        TileBehaviour tileBehaviour = tileObject.GetComponent<TileBehaviour>();
+        TileBehaviour tile = tileObject.GetComponent<TileBehaviour>();
 
-        tileBehaviour.MovementBehaviour.OnTileStartedMoving.AddListener(RegisterTileStartedMoving);
-        tileBehaviour.MovementBehaviour.OnTileFinishedMoving.AddListener(RegisterTileStoppedMoving);
+        tile.MovementBehaviour.OnTileStartedMoving.AddListener(RegisterTileStartedMoving);
+        tile.MovementBehaviour.OnTileFinishedMoving.AddListener(RegisterTileStoppedMoving);
 
-        tileBehaviour.MovementBehaviour.MoveToGridRef(x, y, true);
-
-        return tileBehaviour;
+        return tile;
     }
 
-    public Vector3 GridToWorldSpace(int gridX, int gridY)
-    {
-        return GridToWorldSpace(gridX, gridY, 0);
-    }
+    #endregion
 
-    public Vector3 GridToWorldSpace(int gridX, int gridY, float worldZ)
-    {
-        float worldX = gridX - (boardLayout.width / 2) + (boardLayout.width % 2 == 0 ? 0.5f : 0);
-        float worldY = gridY - (boardLayout.height / 2) + (boardLayout.height % 2 == 0 ? 0.5f : 0);
-        return tilesParent.transform.position + (new Vector3(worldX, worldY, worldZ) * boardLayout.spacing);
-    }
+    #region Event Handlers
 
-    public bool IsWithinGrid(int x, int y)
-    {
-        return x >= 0 && x < boardLayout.width && y >= 0 && y < boardLayout.height;
-    }
-
-    public void OnTileChianDestroyed(TileBehaviour[] tileChain)
+    public void OnTileChainDestroyed()
     {
         gridLocked = true;
+
+        CompressTileGrid();
+        TopUpTileGrid();
+
+        SyncTilesToMatchGrid(false);
     }
 
     private void RegisterTileStartedMoving(TileBehaviour tile)
@@ -193,45 +132,288 @@ public class TileGridManager : Singleton<TileGridManager>
 
             if (GridContainsValidChain(3) == false)
             {
-                ShuffleTiles(200);
+                ShuffleTileGrid(200);
+                RecalculateAdjacentTiles();
+                PlantChainOfLength(3);
+                SyncTilesToMatchGrid(false);
             }
         }
     }
+
+    #endregion
+
+    #region Grid Manipulation Methods
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="shuffleIterations"></param>
-    public void ShuffleTiles(int shuffleIterations)
+    public void ShuffleTileGrid(int shuffleIterations)
     {
-        Vector2Int[,] newGridRefs = new Vector2Int[tileGrid.GetLength(0), tileGrid.GetLength(1)];
-
-        for (int y = 0; y < newGridRefs.GetLength(1); y++)
-        {
-            for (int x = 0; x < newGridRefs.GetLength(0); x++)
-            {
-                newGridRefs[x, y] = tileGrid[x, y].GetComponent<TileMovementBehaviour>().GridRef;
-            }
-        }
-
         for (int r = 0; r < shuffleIterations; r++)
         {
-            Vector2Int randomRefA = new Vector2Int(Random.Range(0, newGridRefs.GetLength(0)), Random.Range(0, newGridRefs.GetLength(1)));
-            Vector2Int randomRefB = new Vector2Int(Random.Range(0, newGridRefs.GetLength(0)), Random.Range(0, newGridRefs.GetLength(1)));
+            Vector2Int gridRefA = GetRandomValidGridRef();
+            Vector2Int gridRefB = GetRandomValidGridRef();
 
-            Vector2Int temp = newGridRefs[randomRefA.x, randomRefA.y];
-            newGridRefs[randomRefA.x, randomRefA.y] = newGridRefs[randomRefB.x, randomRefB.y];
-            newGridRefs[randomRefB.x, randomRefB.y] = temp;
+            SwapTilesInGrid(gridRefA, gridRefB);
         }
+    }
 
-        for (int y = 0; y < newGridRefs.GetLength(1); y++)
+    public void PlantChainOfLength(int length)
+    {
+        // Find a random tile in the grid
+        Vector2Int gridRef;
+        do
         {
-            for (int x = 0; x < newGridRefs.GetLength(0); x++)
+            gridRef = GetRandomValidGridRef();
+        } while (GetTileCount(GetTile(gridRef).type) < length);
+
+        TileType type = GetTile(gridRef).type;
+        TileBehaviour[] tilesOfType = GetTilesOfType(type);
+
+        List<Vector2Int> targetGridRefs = new List<Vector2Int>();
+        targetGridRefs.Add(tilesOfType[0].MovementBehaviour.gridRef);
+        for (int i = 1; i < length; i++)
+        {
+            List<Vector2Int> adjacentRefs = GetAdjacentGridRefs(targetGridRefs[i - 1]);
+            Vector2Int nextGridRef = adjacentRefs[Random.Range(0, adjacentRefs.Count)];
+
+            if (targetGridRefs.Contains(nextGridRef))
             {
-                tileGrid[x, y].GetComponent<TileMovementBehaviour>().MoveToGridRef(newGridRefs[x, y].x, newGridRefs[x, y].y, false);
+                i--;
+            }
+            else
+            {
+                targetGridRefs.Add(nextGridRef);
             }
         }
 
+        for (int i = 1; i < length; i++)
+        {
+            Vector2Int gridRefA = tilesOfType[i].MovementBehaviour.gridRef;
+            Vector2Int gridRefB = GetTile(targetGridRefs[i]).MovementBehaviour.gridRef;
+
+            SwapTilesInGrid(gridRefA, gridRefB);
+        }
+    }
+
+    private void CompressTileGrid()
+    {
+        for (int x = 0; x < board.width; x++)
+        {
+            for (int y = 1; y < board.height; y++)
+            {
+                if (tileGrid[x, y] == null)
+                    continue;
+
+                for (int newY = 0; newY < y; newY++)
+                {
+                    if (board.enabledSquaresGrid[x, newY] == false)
+                        continue;
+
+                    if (tileGrid[x, newY] == null)
+                    {
+                        SetTile(x, newY, tileGrid[x, y]);
+                        SetTile(x, y, null);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void TopUpTileGrid()
+    {
+        for (int x = 0; x < board.width; x++)
+        {
+            for (int y = 0; y < board.height; y++)
+            {
+                if (tileGrid[x, y] == null && board.enabledSquaresGrid[x, y] == true)
+                {
+                    SetTile(x, y, CreateTileAtGridRef(x, board.height + y));
+                }
+            }
+        }
+    }
+
+    #endregion
+
+    #region Tile Manipulation
+
+    public void RecalculateAdjacentTiles()
+    {
+        for (int y = 0; y < board.height; y++)
+        {
+            for (int x = 0; x < board.width; x++)
+            {
+                if (tileGrid[x, y] == null)
+                    continue;
+
+                tileGrid[x, y].adjacents.Clear();
+                List<Vector2Int> adjacentRefs = GetAdjacentGridRefs(x, y);
+
+                for (int i = 0; i < adjacentRefs.Count; i++)
+                {
+                    if (GetTile(adjacentRefs[i]) == null)
+                        continue;
+
+                    tileGrid[x, y].adjacents.Add(GetTile(adjacentRefs[i]));
+                }
+            }
+        }
+    }
+
+    public void SyncTilesToMatchGrid(bool instant)
+    {
+        for (int y = 0; y < board.height; y++)
+        {
+            for (int x = 0; x < board.width; x++)
+            {
+                if (tileGrid[x, y] != null && board.enabledSquaresGrid[x, y] == true)
+                {
+                    tileGrid[x, y].MovementBehaviour.SyncPositionToGridRef(instant);
+                }
+            }
+        }
+    }
+
+    #endregion
+
+    #region Grid Utility Methods
+
+    public void SwapTilesInGrid(Vector2Int gridRefA, Vector2Int gridRefB)
+    {
+        if (IsWithinBoardAndEnabled(gridRefA) && IsWithinBoardAndEnabled(gridRefB))
+        {
+            TileBehaviour temp = tileGrid[gridRefA.x, gridRefA.y];
+
+            SetTile(gridRefA, GetTile(gridRefB));
+            SetTile(gridRefB, temp);
+        }
+    }
+
+    public Vector3 GridToWorldSpace(int gridX, int gridY)
+    {
+        return GridToWorldSpace(gridX, gridY, 0);
+    }
+
+    public Vector3 GridToWorldSpace(int gridX, int gridY, float worldZ)
+    {
+        float worldX = gridX - (board.width / 2) + (board.width % 2 == 0 ? 0.5f : 0);
+        float worldY = gridY - (board.height / 2) + (board.height % 2 == 0 ? 0.5f : 0);
+        return tilesParent.transform.position + (new Vector3(worldX, worldY, worldZ) * board.spacing);
+    }
+
+    public List<Vector2Int> GetAdjacentGridRefs(Vector2Int gridRef)
+    {
+        return GetAdjacentGridRefs(gridRef.x, gridRef.y);
+    }
+
+    public List<Vector2Int> GetAdjacentGridRefs(int x, int y)
+    {
+        List<Vector2Int> adjacentRefs = new List<Vector2Int>();
+
+        for (int yOff = -1; yOff <= 1; yOff++)
+        {
+            for (int xOff = -1; xOff <= 1; xOff++)
+            {
+                if (xOff == 0 && yOff == 0)
+                    continue;
+
+                if (IsWithinBoardAndEnabled(x + xOff, y + yOff) == false)
+                    continue;
+
+                adjacentRefs.Add(new Vector2Int(x + xOff, y + yOff));
+            }
+        }
+
+        return adjacentRefs;
+    }
+
+    public Vector2Int GetRandomValidGridRef()
+    {
+        return enabledGridRefs[Random.Range(0, enabledGridRefs.Count)];
+    }
+
+    public bool IsWithinBoard(int x, int y)
+    {
+        return x >= 0 && x < board.width && y >= 0 && y < board.height;
+    }
+
+    public bool IsWithinBoard(Vector2Int gridRef)
+    {
+        return gridRef.x >= 0 && gridRef.x < board.width && gridRef.y >= 0 && gridRef.y < board.height;
+    }
+
+    public bool IsWithinBoardAndEnabled(int x, int y)
+    {
+        return (x >= 0 && x < board.width && y >= 0 && y < board.height) && board.enabledSquaresGrid[x, y];
+    }
+
+    public bool IsWithinBoardAndEnabled(Vector2Int gridRef)
+    {
+        return (gridRef.x >= 0 && gridRef.x < board.width && gridRef.y >= 0 && gridRef.y < board.height) && board.enabledSquaresGrid[gridRef.x, gridRef.y];
+    }
+
+    public void SetTile(int x, int y, TileBehaviour tile)
+    {
+        Debug.Assert(IsWithinBoard(x, y), $"Grid Reference '{x}, {y}' passed is not within the grid");
+
+        if (IsWithinBoard(x, y))
+            tileGrid[x, y] = tile;
+
+        if (tile != null)
+            tile.MovementBehaviour.gridRef = new Vector2Int(x, y);
+    }
+
+    public void SetTile(Vector2Int gridRef, TileBehaviour tile)
+    {
+        Debug.Assert(IsWithinBoard(gridRef), $"Grid Reference '{gridRef.x}, {gridRef.y}' passed is not within the grid");
+
+        if (IsWithinBoard(gridRef))
+            tileGrid[gridRef.x, gridRef.y] = tile;
+
+        if (tile != null)
+            tile.MovementBehaviour.gridRef = gridRef;
+    }
+
+    public TileBehaviour GetTile(int x, int y)
+    {
+        Debug.Assert(IsWithinBoardAndEnabled(x, y), $"Grid Reference '{x}, {y}' passed is either not within the grid or is an empty space");
+
+        if (IsWithinBoardAndEnabled(x, y))
+            return tileGrid[x, y];
+        else
+            return null;
+    }
+
+    public TileBehaviour GetTile(Vector2Int gridRef)
+    {
+        Debug.Assert(IsWithinBoardAndEnabled(gridRef), $"Grid Reference '{gridRef.x}, {gridRef.y}' passed is either not within the grid or is an empty space");
+
+        if (IsWithinBoardAndEnabled(gridRef))
+            return tileGrid[gridRef.x, gridRef.y];
+        else
+            return null;
+    }
+
+    public TileBehaviour[] GetTilesOfType(TileType type)
+    {
+        List<TileBehaviour> tiles = new List<TileBehaviour>();
+        foreach (TileBehaviour tile in tileGrid)
+        {
+            if (tile != null && tile.type == type)
+            {
+                tiles.Add(tile);
+            }
+        }
+
+        return tiles.ToArray();
+    }
+
+    public int GetTileCount(TileType type)
+    {
+        return GetTilesOfType(type).Length;
     }
 
     /// <summary>
@@ -249,7 +431,7 @@ public class TileGridManager : Singleton<TileGridManager>
         int maxChainLength = 0;
         foreach (TileBehaviour tile in tileGrid)
         {
-            if (tile.type != type || closedSet.Contains(tile))
+            if (tile == null || tile.type != type || closedSet.Contains(tile))
                 continue;
 
             searchQueue.Enqueue(tile);
@@ -302,23 +484,25 @@ public class TileGridManager : Singleton<TileGridManager>
         return validChainExists;
     }
 
+    #endregion
+
     /// <summary>
     /// Draws a preview of the board layout
     /// </summary>
     private void OnDrawGizmos()
     {
-        boardLayout = GameCoordinator.Instance.LevelData.boardLayout;
+        board = GameCoordinator.Instance.LevelData.boardLayout;
 
-        if (boardLayout == null)
+        if (board == null)
             return;
 
-        for (int y = 0; y < boardLayout.height; y++)
+        for (int y = 0; y < board.height; y++)
         {
-            for (int x = 0; x < boardLayout.width; x++)
+            for (int x = 0; x < board.width; x++)
             {
                 Gizmos.color = Color.red;
 
-                Gizmos.DrawWireSphere(GridToWorldSpace(x, y), boardLayout.spacing / 2f);
+                Gizmos.DrawWireSphere(GridToWorldSpace(x, y), board.spacing / 2f);
             }
         }
     }

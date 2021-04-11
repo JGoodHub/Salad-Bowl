@@ -16,7 +16,7 @@ MonoBehaviour:
   height: 6
   spacing: 1.2
   seed: 0
-  randomSeed: 0
+  randomSeed: 1
   platePrefab: {fileID: 4350133075397374716, guid: 6ae8e82646ff88e43b4d1b293485e2ad,
     type: 3}
   tilePrefabs:
@@ -26,3 +26,4 @@ MonoBehaviour:
   - {fileID: 225576899449716471, guid: f8f9929dcdffdc64999d58ee97229760, type: 3}
   - {fileID: 8554706470027714941, guid: 1259fbc3998a8be4f86bb4a4442b6cce, type: 3}
   - {fileID: 3106832181626982125, guid: 925c205f64ef49f45bef9e84a190c787, type: 3}
+  toggleGridEditor: 010101010101010101010101010101010101010101010101010101010101010101010101

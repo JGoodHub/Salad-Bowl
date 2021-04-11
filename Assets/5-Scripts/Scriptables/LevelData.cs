@@ -26,7 +26,6 @@ public class LevelData : ScriptableObject
     public int moveLimit;
     public int completionBonus;
 
-
     public int GetTargetForType(TileType type)
     {
         for (int i = 0; i < tileQuotas.Length; i++)

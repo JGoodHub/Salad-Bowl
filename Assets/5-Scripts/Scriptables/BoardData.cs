@@ -13,26 +13,63 @@ public class BoardData : ScriptableObject
 
     [Header("Generation Parameters")]
     public int seed;
-    public bool randomSeed = true;
+    public bool randomiseSeed = true;
 
     [Header("Tile and Backing Prefabs")]
     public GameObject platePrefab;
     public GameObject[] tilePrefabs;
 
     [Header("Tile Activations")]
-    public bool[,] tileToggles;
-
-    private void OnValidate()
-    {
-        width = Mathf.Clamp(width, 3, 9);
-        height = Mathf.Clamp(height, 3, 9);
-
-        spacing = Mathf.Clamp(spacing, 0f, float.MaxValue);
-    }
+    [HideInInspector] public bool[] toggleGridEditor;
+    public bool[,] enabledSquaresGrid;
 
     public void Init()
     {
-        if (randomSeed)
-            seed = System.DateTime.Now.GetHashCode();
+        if (randomiseSeed)
+        {
+            Random.InitState(System.DateTime.Now.GetHashCode());
+            seed = Random.Range(10000, 99999);
+        }
+
+        Convert1DToggleGridTo2D();
+    }
+
+    public void ResetToggleGrid()
+    {
+        toggleGridEditor = new bool[width * height];
+
+        for (int i = 0; i < toggleGridEditor.Length; i++)
+        {
+            toggleGridEditor[i] = true;
+        }
+    }
+
+    private void Convert1DToggleGridTo2D()
+    {
+        enabledSquaresGrid = new bool[width, height];
+
+        int i = 0;
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                enabledSquaresGrid[x, (height - 1) - y] = toggleGridEditor[i];
+
+                i++;
+            }
+        }
+    }
+
+    public GameObject GetPrefabForType(TileType type)
+    {
+        for (int i = 0; i < tilePrefabs.Length; i++)
+        {
+            if (tilePrefabs[i].GetComponent<TileBehaviour>().type == type)
+            {
+                return tilePrefabs[i];
+            }
+        }
+
+        return null;
     }
 }

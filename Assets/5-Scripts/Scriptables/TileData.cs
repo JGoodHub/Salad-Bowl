@@ -41,12 +41,12 @@ public class TileData : ScriptableObject
     {
         loadouts = new TileLoadout[6];
 
-        loadouts[0] = new TileLoadout("Red", TileType.RED, 5, null, new Color(0.78f, 0.27f, 0.21f));
-        loadouts[1] = new TileLoadout("Orange", TileType.ORANGE, 5, null, new Color(1f, 0.54f, 0f));
-        loadouts[2] = new TileLoadout("Yellow", TileType.YELLOW, 5, null, new Color(1f, 0.82f, 0f));
-        loadouts[3] = new TileLoadout("Green", TileType.GREEN, 5, null, new Color(0.13f, 0.64f, 0.08f));
-        loadouts[4] = new TileLoadout("Blue", TileType.BLUE, 5, null, new Color(0.18f, 0.32f, 0.57f));
-        loadouts[5] = new TileLoadout("Pink", TileType.PINK, 5, null, new Color(1f, 0f, 0.52f));
+        loadouts[1] = new TileLoadout("Red", TileType.RED, 5, null, new Color(0.78f, 0.27f, 0.21f));
+        loadouts[2] = new TileLoadout("Orange", TileType.ORANGE, 5, null, new Color(1f, 0.54f, 0f));
+        loadouts[3] = new TileLoadout("Yellow", TileType.YELLOW, 5, null, new Color(1f, 0.82f, 0f));
+        loadouts[4] = new TileLoadout("Green", TileType.GREEN, 5, null, new Color(0.13f, 0.64f, 0.08f));
+        loadouts[5] = new TileLoadout("Blue", TileType.BLUE, 5, null, new Color(0.18f, 0.32f, 0.57f));
+        loadouts[6] = new TileLoadout("Pink", TileType.PINK, 5, null, new Color(1f, 0f, 0.52f));
     }
 
     private void OnValidate()

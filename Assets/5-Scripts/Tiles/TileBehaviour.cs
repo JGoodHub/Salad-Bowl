@@ -32,6 +32,8 @@ public class TileBehaviour : MonoBehaviour
     {
         OnTileDestroyed?.Invoke(this);
 
+        TileGridManager.Instance.SetTile(MovementBehaviour.gridRef, null);
+
         Destroy(gameObject);
     }
 }

@@ -109,7 +109,7 @@ public class TileChainManager : Singleton<TileChainManager>
                 }
             }
 
-            Invoke("FireTileChainDestroyedEvent", (tileChain.Count * tileConsumptionInterval) + tileDestructionDelay);
+            Invoke("FireTileChainDestroyedEvent", (tileChain.Count * tileConsumptionInterval) + tileDestructionDelay + 0.02f);
 
             OnTileChainConsumed?.Invoke(tileChain.ToArray());
 

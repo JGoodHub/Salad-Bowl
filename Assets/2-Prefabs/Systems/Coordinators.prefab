@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67ef7c0846845d4e87335e095e33e5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dying: 0
   TileData: {fileID: 11400000, guid: 8fc13c30b02eb1643a27f5e29cf64e81, type: 2}
   LevelData: {fileID: 11400000, guid: 6355fbf5944a1cd4e9b103750baf8adc, type: 2}
 --- !u!1 &1780460432177569270
@@ -88,6 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9c180506ef5e341b929d9fcfb24403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dying: 0
   menuSceneIndex: 0
   playSceneIndex: 1
 --- !u!1 &8566029349061087836
