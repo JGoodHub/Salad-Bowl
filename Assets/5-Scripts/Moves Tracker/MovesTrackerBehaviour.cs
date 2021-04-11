@@ -16,7 +16,7 @@ public class MovesTrackerBehaviour : MonoBehaviour
     {
         TileChainManager.Instance.OnTileChainConsumed.AddListener(DecrementMovesCounter);
 
-        movesRemaining = GameCoordinator.Instance.LevelData.moveLimit;
+        movesRemaining = GameCoordinator.Instance.ActiveLevel.moveLimit;
         MovesTrackerUI.Instance.SetMovesRemaining(movesRemaining);
     }
 

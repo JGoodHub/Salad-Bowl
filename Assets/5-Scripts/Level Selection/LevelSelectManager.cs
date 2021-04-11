@@ -10,7 +10,7 @@ public class LevelSelectManager : Singleton<LevelSelectManager>
 
     public void AssignLevelToCoordinator(int levelIndex)
     {
-        GameCoordinator.Instance.LevelData = levels[levelIndex];
+        GameCoordinator.Instance.LevelIndex = levelIndex;
     }
 
 }

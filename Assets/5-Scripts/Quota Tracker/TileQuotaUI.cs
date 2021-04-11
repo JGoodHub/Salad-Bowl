@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileCounterUI : Singleton<TileCounterUI>
+public class TileQuotaUI : Singleton<TileQuotaUI>
 {
 
     public GameObject tileCounterPrefab;
     public Transform counterEntriesParent;
 
-    private Dictionary<TileType, TileCounterEntry> counterEntries;
+    private Dictionary<TileType, TileQuotaEntry> counterEntries;
 
     public void CreateAndPopulateQuotaEntries(LevelData.TileQuota[] quotas)
     {
-        counterEntries = new Dictionary<TileType, TileCounterEntry>();
+        counterEntries = new Dictionary<TileType, TileQuotaEntry>();
 
         for (int i = 0; i < quotas.Length; i++)
         {
-            TileCounterEntry counterEntry = Instantiate(tileCounterPrefab, counterEntriesParent).GetComponent<TileCounterEntry>();
+            if (quotas[i].target == 0)
+                continue;
+
+            TileQuotaEntry counterEntry = Instantiate(tileCounterPrefab, counterEntriesParent).GetComponent<TileQuotaEntry>();
 
             counterEntry.SetImage(GameCoordinator.Instance.TileData.GetLoadoutByType(quotas[i].type).image);
             counterEntry.SetCounter(0);

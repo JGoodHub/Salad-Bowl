@@ -18,8 +18,8 @@ public class LevelSelectUI : Singleton<LevelSelectUI>
             Destroy(levelButtonContainer.GetChild(c).gameObject);
         }
 
-        levelButtons = new GameObject[LevelSelectManager.Instance.levels.Length];
-        for (int i = 0; i < LevelSelectManager.Instance.levels.Length; i++)
+        levelButtons = new GameObject[GameCoordinator.Instance.Levels.Length];
+        for (int i = 0; i < GameCoordinator.Instance.Levels.Length; i++)
         {
             int iRef = i;
 
@@ -29,7 +29,7 @@ public class LevelSelectUI : Singleton<LevelSelectUI>
 
             levelButtonObj.GetComponent<Button>().onClick.AddListener(() =>
             {
-                LevelSelectManager.Instance.AssignLevelToCoordinator(iRef);
+                GameCoordinator.Instance.LevelIndex = iRef;
                 SceneCoordinator.Instance.LaunchPlayScene();
             });
 

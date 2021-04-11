@@ -17,13 +17,20 @@ public class TileGridManager : Singleton<TileGridManager>
     private List<Vector2Int> enabledGridRefs;
 
     private BoardData board;
+    private List<GameObject> tilePrefabs;
 
     private int tileMovingCount;
     public bool gridLocked;
 
     private void Start()
     {
-        board = GameCoordinator.Instance.LevelData.boardLayout;
+        board = GameCoordinator.Instance.ActiveLevel.boardLayout;
+
+        tilePrefabs = new List<GameObject>();
+        foreach (TileType type in GameCoordinator.Instance.ActiveLevel.GetActiveTypes())
+        {
+            tilePrefabs.Add(board.GetPrefabForType(type));
+        }
 
         Random.InitState(board.seed);
 
@@ -53,6 +60,7 @@ public class TileGridManager : Singleton<TileGridManager>
 
         OnTileGridGenerated?.Invoke(tileGrid);
 
+        TileChainManager.Instance.OnTileChainConsumed.AddListener(OnTileChainConsumed);
         TileChainManager.Instance.OnTileChainDestroyed.AddListener(OnTileChainDestroyed);
     }
 
@@ -87,7 +95,7 @@ public class TileGridManager : Singleton<TileGridManager>
 
     public TileBehaviour CreateTileAtGridRef(int x, int y)
     {
-        GameObject tileObject = Instantiate(board.tilePrefabs[Random.Range(0, board.tilePrefabs.Length)], Vector3.zero, Quaternion.identity, tilesParent);
+        GameObject tileObject = Instantiate(tilePrefabs[Random.Range(0, tilePrefabs.Count)], Vector3.zero, Quaternion.identity, tilesParent);
         tileObject.transform.position = GridToWorldSpace(x, y, tilesParent.position.z);
 
         TileBehaviour tile = tileObject.GetComponent<TileBehaviour>();
@@ -102,10 +110,13 @@ public class TileGridManager : Singleton<TileGridManager>
 
     #region Event Handlers
 
-    public void OnTileChainDestroyed()
+    public void OnTileChainConsumed(TileBehaviour[] tileChain)
     {
         gridLocked = true;
+    }
 
+    public void OnTileChainDestroyed()
+    {
         CompressTileGrid();
         TopUpTileGrid();
 
@@ -486,24 +497,4 @@ public class TileGridManager : Singleton<TileGridManager>
 
     #endregion
 
-    /// <summary>
-    /// Draws a preview of the board layout
-    /// </summary>
-    private void OnDrawGizmos()
-    {
-        board = GameCoordinator.Instance.LevelData.boardLayout;
-
-        if (board == null)
-            return;
-
-        for (int y = 0; y < board.height; y++)
-        {
-            for (int x = 0; x < board.width; x++)
-            {
-                Gizmos.color = Color.red;
-
-                Gizmos.DrawWireSphere(GridToWorldSpace(x, y), board.spacing / 2f);
-            }
-        }
-    }
 }

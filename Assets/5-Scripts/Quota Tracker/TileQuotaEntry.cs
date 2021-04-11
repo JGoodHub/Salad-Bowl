@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class TileCounterEntry : MonoBehaviour
+public class TileQuotaEntry : MonoBehaviour
 {
     [SerializeField] private Image tileImage;
     [SerializeField] private TextMeshProUGUI counterText;

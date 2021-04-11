@@ -612,7 +612,7 @@ Transform:
   - {fileID: 1235126328}
   - {fileID: 1091836207}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &161235728
 GameObject:
@@ -711,7 +711,7 @@ Transform:
   - {fileID: 529257101}
   - {fileID: 943367624}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &391065788
 GameObject:
@@ -1281,16 +1281,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1780460431641383374, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-        type: 3}
-      propertyPath: LevelData
-      value: 
-      objectReference: {fileID: 11400000, guid: 977b15a21b72e1b4a8cba887290dcf74,
-        type: 2}
     - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
         type: 3}
@@ -1345,7 +1339,7 @@ PrefabInstance:
     - target: {fileID: 8566029349061087836, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
         type: 3}
       propertyPath: m_Name
-      value: Coordinators
+      value: '[Coordinators]'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f76341cdba45bbf468d7a8d73d8c3ec4, type: 3}
@@ -1722,7 +1716,7 @@ GameObject:
   - component: {fileID: 899727906}
   - component: {fileID: 899727907}
   m_Layer: 5
-  m_Name: Counter Entires
+  m_Name: Quota Entires
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2415,7 +2409,7 @@ Transform:
   - {fileID: 441699871}
   - {fileID: 732610666}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1352486766
 GameObject:
@@ -2675,6 +2669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winScreen: {fileID: 576585914}
+  nextLevelButton: {fileID: 774922756}
   loseScreen: {fileID: 1596973437}
 --- !u!114 &1524862585
 MonoBehaviour:
@@ -3615,7 +3610,7 @@ Transform:
   - {fileID: 131209797}
   - {fileID: 752721877}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1958177245
 GameObject:
@@ -3649,7 +3644,7 @@ Transform:
   - {fileID: 49005649}
   - {fileID: 1524862583}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2002125135
 GameObject:

@@ -69,7 +69,7 @@ public class LevelData : ScriptableObject
         completionBonus = 0;
     }
 
-    public TileType[] GetActiveTiles()
+    public TileType[] GetActiveTypes()
     {
         List<TileType> activeTiles = new List<TileType>();
 

@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/0-Scenes/0_Main_Menu.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/0-Scenes/1_Time_Trial_Level.unity
+    path: Assets/0-Scenes/1_Order_Up_Game_Scene.unity
     guid: 5ee07ba53e465e246804c308646d922b
   m_configObjects: {}

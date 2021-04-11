@@ -6,7 +6,17 @@ public class GameCoordinator : Singleton<GameCoordinator>
 {
 
     public TileData TileData;
-    public LevelData LevelData;
+
+    public int LevelIndex;
+    public LevelData[] Levels;
+
+    public LevelData ActiveLevel
+    {
+        get
+        {
+            return Levels[LevelIndex];
+        }
+    }
 
     protected override void Awake()
     {
@@ -18,7 +28,11 @@ public class GameCoordinator : Singleton<GameCoordinator>
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
 
-        LevelData.boardLayout.Init();
+        foreach (LevelData level in Levels)
+        {
+            level.boardLayout.Init();
+
+        }
     }
 
 }

@@ -5,10 +5,7 @@ using UnityEngine.Events;
 
 public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
 {
-    [Header("Level Profile")]
-
-    private LevelData levelQuota;
-
+    private LevelData level;
     private Dictionary<TileType, int> counters;
 
     [Header("Event Triggers")]
@@ -19,19 +16,19 @@ public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
 
     private void Start()
     {
-        levelQuota = GameCoordinator.Instance.LevelData;
+        level = GameCoordinator.Instance.ActiveLevel;
 
-        TileCounterUI.Instance.CreateAndPopulateQuotaEntries(levelQuota.tileQuotas);
+        TileQuotaUI.Instance.CreateAndPopulateQuotaEntries(level.tileQuotas);
 
         TileChainManager.Instance.OnTileChainConsumed.AddListener(OnTileChainCompleted);
+        TileChainManager.Instance.OnTileChainDestroyed.AddListener(OnTileChainDestroyed);
 
         counters = new Dictionary<TileType, int>();
-        for (int i = 0; i < levelQuota.tileQuotas.Length; i++)
+        for (int i = 0; i < level.tileQuotas.Length; i++)
         {
-            counters.Add(levelQuota.tileQuotas[i].type, 0);
+            counters.Add(level.tileQuotas[i].type, 0);
         }
     }
-
 
     private void OnTileChainCompleted(TileBehaviour[] tileChain)
     {
@@ -39,26 +36,25 @@ public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
             return;
 
         TileType chainType = tileChain[0].type;
-        int typeTarget = levelQuota.GetTargetForType(chainType);
+        int typeTarget = level.GetTargetForType(chainType);
 
         counters[chainType] += tileChain.Length;
 
-        TileCounterUI.Instance.SetCounterForType(chainType, Mathf.Clamp(counters[chainType], 0, typeTarget));
-        TileCounterUI.Instance.SetCompletetionForType(chainType, counters[chainType] >= typeTarget);
+        TileQuotaUI.Instance.SetCounterForType(chainType, Mathf.Clamp(counters[chainType], 0, typeTarget));
+        TileQuotaUI.Instance.SetCompletetionForType(chainType, counters[chainType] >= typeTarget);
 
         if (counters[chainType] >= typeTarget && counters[chainType] - tileChain.Length < typeTarget)
         {
             OnQuotaCompleted?.Invoke(chainType);
-            CheckAllQuotasComplete();
         }
     }
 
-    private void CheckAllQuotasComplete()
+    private void OnTileChainDestroyed()
     {
         bool allComplete = true;
         foreach (TileType type in counters.Keys)
         {
-            if (counters[type] < levelQuota.GetTargetForType(type))
+            if (counters[type] < level.GetTargetForType(type))
             {
                 allComplete = false;
             }
@@ -67,7 +63,7 @@ public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
         if (allComplete)
         {
             OnAllQuotasCompleted?.Invoke();
+            TileGridManager.Instance.gridLocked = true;
         }
     }
-
 }
