@@ -24,7 +24,9 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 if (instance == null)
                 {
                     // Search for existing instance.
-                    instance = (T)FindObjectOfType(typeof(T));
+                    T[] tArr = Resources.FindObjectsOfTypeAll<T>();
+
+                    instance = tArr.Length > 0 ? tArr[0] : null;
 
                     // Create new instance if one doesn't already exist.
                     if (instance == null)

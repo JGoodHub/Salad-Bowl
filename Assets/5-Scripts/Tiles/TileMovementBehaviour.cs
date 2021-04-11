@@ -74,7 +74,7 @@ public class TileMovementBehaviour : MonoBehaviour
         OnTileFinishedMoving?.Invoke(ParentBehaviour);
     }
 
-    public static Vector3 LerpUnclamped(Vector3 a, Vector3 b, float t)
+    public Vector3 LerpUnclamped(Vector3 a, Vector3 b, float t)
     {
         return a + ((b - a) * t);
     }

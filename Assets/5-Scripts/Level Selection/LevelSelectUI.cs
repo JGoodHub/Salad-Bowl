@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class LevelSelectUI : Singleton<LevelSelectUI>
 {
-
     public GameObject levelButtonPrefab;
     public Transform levelButtonContainer;
 
@@ -39,4 +38,8 @@ public class LevelSelectUI : Singleton<LevelSelectUI>
         }
     }
 
+    public void BackToGamemodeSelection()
+    {
+        MainMenuPanelManager.Instance.SetActivePanel(MainMenuPanelManager.Panels.GAMEMODE_SELECT);
+    }
 }
