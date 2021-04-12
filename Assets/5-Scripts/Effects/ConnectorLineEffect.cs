@@ -16,10 +16,11 @@ public class ConnectorLineEffect : Singleton<ConnectorLineEffect>
         linePositions = new List<Vector3>();
         ResetLine(null);
 
+        TileChainManager.Instance.OnTileChainStarted.AddListener(SetLineColour);
+
         TileChainManager.Instance.OnTileAddedToChain.AddListener(AddTileToLine);
         TileChainManager.Instance.OnTileRemovedFromChain.AddListener(RemoveTileFromLine);
 
-        TileChainManager.Instance.OnTileChainStarted.AddListener(SetLineColour);
         TileChainManager.Instance.OnTileChainFailed.AddListener(ResetLine);
         TileChainManager.Instance.OnTileChainConsumed.AddListener(ResetLine);
     }

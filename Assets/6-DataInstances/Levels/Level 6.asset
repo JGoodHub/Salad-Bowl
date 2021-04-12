@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileStates:
   - type: 0
-    isActive: 1
+    isActive: 0
   - type: 1
     isActive: 1
   - type: 2
@@ -27,7 +27,7 @@ MonoBehaviour:
     isActive: 1
   tileQuotas:
   - type: 0
-    target: 10
+    target: 0
   - type: 1
     target: 10
   - type: 2
@@ -37,7 +37,7 @@ MonoBehaviour:
   - type: 4
     target: 10
   - type: 5
-    target: 0
+    target: 10
   boardLayout: {fileID: 11400000, guid: d2ca0d4f8c6426a4fa26879f828ca179, type: 2}
   moveLimit: 30
   completionBonus: 0

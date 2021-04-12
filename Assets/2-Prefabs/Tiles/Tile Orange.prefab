@@ -90,12 +90,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 76894862461045069}
-  - component: {fileID: 119404634152324672}
   - component: {fileID: 5976159075015242041}
   - component: {fileID: 119404634268186718}
   - component: {fileID: 396814841510983890}
   - component: {fileID: 3521508936810042452}
   - component: {fileID: 3235337007883618000}
+  - component: {fileID: -6267521985584693120}
   m_Layer: 0
   m_Name: Tile Orange
   m_TagString: Untagged
@@ -120,19 +120,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &119404634152324672
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5057764397673134362}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.75, y: 0.75, z: 0.16}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &5976159075015242041
 AudioSource:
   m_ObjectHideFlags: 0
@@ -399,6 +386,19 @@ MonoBehaviour:
   OnTileFinishedMoving:
     m_PersistentCalls:
       m_Calls: []
+--- !u!135 &-6267521985584693120
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5057764397673134362}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.45
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7750867482809572009
 GameObject:
   m_ObjectHideFlags: 0

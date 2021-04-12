@@ -22,6 +22,7 @@ public class TileSelectionBehaviour : MonoBehaviour
             TileChainManager.Instance.StartNewChainFromTile(ParentBehaviour);
     }
 
+    // COmusing the current chain we've just released
     private void OnMouseUp()
     {
         if (TileGridManager.Instance.gridLocked == false)

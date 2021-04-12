@@ -6,13 +6,13 @@ using UnityEngine;
 [CustomEditor(typeof(LevelData))]
 public class LevelDataInspector : CustomInspector
 {
-    private LevelData levelData;
+    private LevelData level;
     private TileData tileData;
     private string[] tileNames;
 
     private void Awake()
     {
-        levelData = (LevelData)target;
+        level = (LevelData)target;
 
         tileNames = System.Enum.GetNames(typeof(TileType));
 
@@ -22,25 +22,25 @@ public class LevelDataInspector : CustomInspector
             tileData = Resources.FindObjectsOfTypeAll<TileData>()[0];
         }
 
-        if (levelData.tileStates == null || levelData.tileStates.Length != tileNames.Length)
+        if (level.tileStates == null || level.tileStates.Length != tileNames.Length)
         {
-            levelData.tileStates = new LevelData.TileState[tileNames.Length];
+            level.tileStates = new LevelData.TileState[tileNames.Length];
 
-            for (int i = 0; i < levelData.tileStates.Length; i++)
+            for (int i = 0; i < level.tileStates.Length; i++)
             {
-                levelData.tileStates[i].type = (TileType)i;
-                levelData.tileStates[i].isActive = true;
+                level.tileStates[i].type = (TileType)i;
+                level.tileStates[i].isActive = true;
             }
         }
 
-        if (levelData.tileQuotas == null || levelData.tileQuotas.Length != tileNames.Length)
+        if (level.tileQuotas == null || level.tileQuotas.Length != tileNames.Length)
         {
-            levelData.tileQuotas = new LevelData.TileQuota[tileNames.Length];
+            level.tileQuotas = new LevelData.TileQuota[tileNames.Length];
 
-            for (int i = 0; i < levelData.tileQuotas.Length; i++)
+            for (int i = 0; i < level.tileQuotas.Length; i++)
             {
-                levelData.tileQuotas[i].type = (TileType)i;
-                levelData.tileQuotas[i].target = 0;
+                level.tileQuotas[i].type = (TileType)i;
+                level.tileQuotas[i].target = 0;
             }
         }
 
@@ -53,7 +53,7 @@ public class LevelDataInspector : CustomInspector
 
         if (GUILayout.Button("Reset All"))
         {
-            levelData.Reset();
+            level.Reset();
         }
 
         #region Toggle Active Tiles
@@ -68,9 +68,9 @@ public class LevelDataInspector : CustomInspector
         {
             GUI.color = tileData.loadouts[i].primaryColor;
 
-            if (GUILayout.Button(levelData.tileStates[i].isActive ? "✔" : "✘", GUILayout.Width(40), GUILayout.Height(40)))
+            if (GUILayout.Button(level.tileStates[i].isActive ? "✔" : "✘", GUILayout.Width(40), GUILayout.Height(40)))
             {
-                levelData.tileStates[i].isActive = !levelData.tileStates[i].isActive;
+                level.tileStates[i].isActive = !level.tileStates[i].isActive;
             }
 
             GUI.color = Color.white;
@@ -86,13 +86,13 @@ public class LevelDataInspector : CustomInspector
 
         DrawTitle("Set Tile Quotas");
 
-        for (int i = 0; i < levelData.tileQuotas.Length; i++)
+        for (int i = 0; i < level.tileQuotas.Length; i++)
         {
-            levelData.tileQuotas[i].target = PlusMinusIntField(tileNames[i], levelData.tileQuotas[i].target, 0, int.MaxValue, 1);
+            level.tileQuotas[i].target = PlusMinusIntField(tileNames[i], level.tileQuotas[i].target, 0, int.MaxValue, 1);
 
-            if (levelData.tileQuotas[i].target > 0)
+            if (level.tileQuotas[i].target > 0)
             {
-                levelData.tileStates[i].isActive = true;
+                level.tileStates[i].isActive = true;
             }
         }
 
@@ -102,9 +102,9 @@ public class LevelDataInspector : CustomInspector
 
         DrawTitle("Scores and Limits");
 
-        levelData.moveLimit = PlusMinusIntField("Moves Limit", levelData.moveLimit, 0, int.MaxValue, 1);
+        level.moveLimit = PlusMinusIntField("Moves Limit", level.moveLimit, 0, int.MaxValue, 1);
 
-        levelData.completionBonus = PlusMinusIntField("Completion Bonus", levelData.completionBonus, 0, int.MaxValue, 25);
+        level.completionBonus = PlusMinusIntField("Completion Bonus", level.completionBonus, 0, int.MaxValue, 25);
 
         #endregion
 
@@ -112,9 +112,11 @@ public class LevelDataInspector : CustomInspector
 
         DrawTitle("Board Layout");
 
-        levelData.boardLayout = EditorGUILayout.ObjectField("Board Layout:", levelData.boardLayout, typeof(BoardData), false) as BoardData;
+        level.boardLayout = EditorGUILayout.ObjectField("Board Layout:", level.boardLayout, typeof(BoardData), false) as BoardData;
 
         #endregion
+
+        EditorUtility.SetDirty(level);
 
         GUI.color = Color.white;
     }

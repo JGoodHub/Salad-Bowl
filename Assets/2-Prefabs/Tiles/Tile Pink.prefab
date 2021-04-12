@@ -90,12 +90,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4295383480896905399}
-  - component: {fileID: 7203744099453369351}
   - component: {fileID: 6785060741275760531}
   - component: {fileID: 7155423485140446482}
   - component: {fileID: 1776250738800920683}
   - component: {fileID: 7023151119192020030}
   - component: {fileID: 8559919279581074906}
+  - component: {fileID: -3483164608235324317}
   m_Layer: 0
   m_Name: Tile Pink
   m_TagString: Untagged
@@ -120,19 +120,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7203744099453369351
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3106832181626982125}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.75, y: 0.75, z: 0.16}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &6785060741275760531
 AudioSource:
   m_ObjectHideFlags: 0
@@ -399,6 +386,19 @@ MonoBehaviour:
   OnTileFinishedMoving:
     m_PersistentCalls:
       m_Calls: []
+--- !u!135 &-3483164608235324317
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3106832181626982125}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.45
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3728445524582602544
 GameObject:
   m_ObjectHideFlags: 0

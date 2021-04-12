@@ -89,12 +89,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9124029306964213726}
-  - component: {fileID: 1747187490725612811}
   - component: {fileID: 733877132452527049}
   - component: {fileID: 9137285773231943352}
   - component: {fileID: 6081847887480626036}
   - component: {fileID: 2625027780862643372}
   - component: {fileID: 8257149284714506847}
+  - component: {fileID: -1860077280014163507}
   m_Layer: 0
   m_Name: Tile Red
   m_TagString: Untagged
@@ -119,19 +119,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1747187490725612811
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1705125567866454088}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.75, y: 0.75, z: 0.16}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &733877132452527049
 AudioSource:
   m_ObjectHideFlags: 0
@@ -398,6 +385,19 @@ MonoBehaviour:
   OnTileFinishedMoving:
     m_PersistentCalls:
       m_Calls: []
+--- !u!135 &-1860077280014163507
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705125567866454088}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.45
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4613319265704894752
 GameObject:
   m_ObjectHideFlags: 0

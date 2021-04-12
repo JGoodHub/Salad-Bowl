@@ -13,6 +13,7 @@ public class BoardDataInspector : CustomInspector
 
         BoardData board = target as BoardData;
 
+
         #region Size Settings
 
         DrawTitle("Size Settings");
@@ -119,6 +120,8 @@ public class BoardDataInspector : CustomInspector
         }
 
         #endregion
+
+        EditorUtility.SetDirty(board);
 
         GUI.color = Color.white;
     }
