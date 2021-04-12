@@ -58,7 +58,7 @@ public class BoardDataInspector : CustomInspector
 
         string[] typeNames = System.Enum.GetNames(typeof(TileType));
 
-        if (board.tilePrefabs.Length != typeNames.Length)
+        if (board.tilePrefabs == null || board.tilePrefabs.Length != typeNames.Length)
         {
             board.tilePrefabs = new GameObject[typeNames.Length];
         }

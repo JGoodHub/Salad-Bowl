@@ -758,9 +758,8 @@ Transform:
   - {fileID: 1235126328}
   - {fileID: 1091836207}
   - {fileID: 1768583992}
-  - {fileID: 878625447}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &161235728
 GameObject:
@@ -859,7 +858,7 @@ Transform:
   - {fileID: 529257101}
   - {fileID: 943367624}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &391065788
 GameObject:
@@ -1501,12 +1500,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 144024965}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
         type: 3}
@@ -2001,12 +2000,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 814021060}
   m_CullTransparentMesh: 0
---- !u!4 &878625447 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5806554557997488399, guid: f76341cdba45bbf468d7a8d73d8c3ec4,
-    type: 3}
-  m_PrefabInstance: {fileID: 737994974}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &899727905
 GameObject:
   m_ObjectHideFlags: 0
@@ -2785,7 +2778,7 @@ Transform:
   - {fileID: 441699871}
   - {fileID: 732610666}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1352486766
 GameObject:
@@ -3288,7 +3281,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1524862584}
-        m_MethodName: RetryLevel
+        m_MethodName: ReloadLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4130,7 +4123,7 @@ Transform:
   - {fileID: 131209797}
   - {fileID: 752721877}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1958177245
 GameObject:
@@ -4164,7 +4157,7 @@ Transform:
   - {fileID: 49005649}
   - {fileID: 1524862583}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2002125135
 GameObject:
@@ -4265,7 +4258,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1524862584}
-        m_MethodName: ReturnToMenu
+        m_MethodName: LoadMenuScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

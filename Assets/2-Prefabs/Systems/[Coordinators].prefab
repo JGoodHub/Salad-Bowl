@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dying: 0
   TileData: {fileID: 11400000, guid: 8fc13c30b02eb1643a27f5e29cf64e81, type: 2}
-  LevelIndex: 0
+  LevelIndex: 9
   Levels:
   - {fileID: 11400000, guid: 6355fbf5944a1cd4e9b103750baf8adc, type: 2}
   - {fileID: 11400000, guid: b11eab4289b890845a219620e42c3d8b, type: 2}
