@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConnectorLineEffect : Singleton<ConnectorLineEffect>
+public class ConnectorLineBehaviour : Singleton<ConnectorLineBehaviour>
 {
 
     public LineRenderer lineRen;
@@ -16,10 +16,10 @@ public class ConnectorLineEffect : Singleton<ConnectorLineEffect>
         linePositions = new List<Vector3>();
         ResetLine(null);
 
-        TileChainManager.Instance.OnTileChainStarted.AddListener(SetLineColour);
+        //TileChainManager.Instance.OnTileChainStarted.AddListener(SetLineColour);
 
-        TileChainManager.Instance.OnTileAddedToChain.AddListener(AddTileToLine);
-        TileChainManager.Instance.OnTileRemovedFromChain.AddListener(RemoveTileFromLine);
+        TileChainManager.Instance.OnTileAddedToChain.AddListener(UpdateLineRenderer);
+        TileChainManager.Instance.OnTileRemovedFromChain.AddListener(UpdateLineRenderer);
 
         TileChainManager.Instance.OnTileChainFailed.AddListener(ResetLine);
         TileChainManager.Instance.OnTileChainConsumed.AddListener(ResetLine);
@@ -50,7 +50,7 @@ public class ConnectorLineEffect : Singleton<ConnectorLineEffect>
     private void AddTileToLine(TileBehaviour tile)
     {
         linePositions.Add(tile.transform.position);
-        UpdateLineRenderer();
+       // UpdateLineRenderer();
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class ConnectorLineEffect : Singleton<ConnectorLineEffect>
     private void RemoveTileFromLine(TileBehaviour tile)
     {
         linePositions.Remove(tile.transform.position);
-        UpdateLineRenderer();
+        //UpdateLineRenderer();
     }
 
     /// <summary>
@@ -77,10 +77,15 @@ public class ConnectorLineEffect : Singleton<ConnectorLineEffect>
     /// <summary>
     /// Sync the line renderer component to the linePositions array
     /// </summary>
-    private void UpdateLineRenderer()
+    private void UpdateLineRenderer(TileBehaviour tile)
     {
-        lineRen.positionCount = linePositions.Count;
-        lineRen.SetPositions(linePositions.ToArray());
+        SetLineColour(TileChainManager.Instance.TileChain[0]);
+
+        lineRen.positionCount = TileChainManager.Instance.TileChain.Count;
+        for (int i = 0; i < TileChainManager.Instance.TileChain.Count; i++)
+        {
+            lineRen.SetPosition(i, TileChainManager.Instance.TileChain[i].transform.position);
+        }
     }
 
 }

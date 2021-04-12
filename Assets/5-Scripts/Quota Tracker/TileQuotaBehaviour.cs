@@ -59,7 +59,7 @@ public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
     /// <summary>
     /// Check if a quotas have been fulfilled and fire the associated event
     /// </summary>
-    private void OnTileChainDestroyed()
+    public bool CheckAllQuotasComplete()
     {
         bool allComplete = true;
         foreach (TileType type in counters.Keys)
@@ -73,7 +73,16 @@ public class TileQuotaBehaviour : Singleton<TileQuotaBehaviour>
         if (allComplete)
         {
             OnAllQuotasCompleted?.Invoke();
-            TileGridManager.Instance.gridLocked = true;
         }
+
+        return allComplete;
     }
+
+
+    private void OnTileChainDestroyed()
+    {
+        CheckAllQuotasComplete();
+    }
+
+
 }

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class TileChainManager : Singleton<TileChainManager>
 {
-    private List<TileBehaviour> tileChain;
+    public List<TileBehaviour> TileChain { get; private set; }
     public float tileConsumptionInterval = 0.1f;
     public float tileDestructionDelay = 0.5f;
 
@@ -21,7 +21,7 @@ public class TileChainManager : Singleton<TileChainManager>
 
     private void Start()
     {
-        tileChain = new List<TileBehaviour>();
+        TileChain = new List<TileBehaviour>();
     }
 
     // Start a new tile chain with the passed tile
@@ -38,16 +38,16 @@ public class TileChainManager : Singleton<TileChainManager>
     public void AddTileToChain(TileBehaviour tile)
     {
         // Validation checks
-        Debug.Assert(tileChain != null, "Tile chain list is null");
+        Debug.Assert(TileChain != null, "Tile chain list is null");
         Debug.Assert(tile != null, "Tile is null");
 
-        if (tileChain.Contains(tile) == false)
+        if (TileChain.Contains(tile) == false)
         {
-            if (tileChain.Count == 0 || tileChain[tileChain.Count - 1].adjacents.Contains(tile))
+            if (TileChain.Count == 0 || TileChain[TileChain.Count - 1].adjacents.Contains(tile))
             {
-                if (tileChain.Count == 0 || tileChain[tileChain.Count - 1].type == tile.type)
+                if (TileChain.Count == 0 || TileChain[TileChain.Count - 1].type == tile.type)
                 {
-                    tileChain.Add(tile);
+                    TileChain.Add(tile);
                     tile.SelectionBehaviour.SetSelectedState(true);
 
                     OnTileAddedToChain?.Invoke(tile);
@@ -61,22 +61,22 @@ public class TileChainManager : Singleton<TileChainManager>
     public void TrimChainToTile(TileBehaviour tile)
     {
         // Validation checks
-        Debug.Assert(tileChain != null, "Tile chain list is null");
+        Debug.Assert(TileChain != null, "Tile chain list is null");
         Debug.Assert(tile != null, "Tile is null");
 
-        if (tileChain.Count >= 2 && tileChain[tileChain.Count - 1] != tile && tileChain.Contains(tile))
+        if (TileChain.Count >= 2 && TileChain[TileChain.Count - 1] != tile && TileChain.Contains(tile))
         {
-            for (int i = tileChain.Count - 1; i >= 0; i--)
+            for (int i = TileChain.Count - 1; i >= 0; i--)
             {
-                if (tileChain[i] == tile)
+                if (TileChain[i] == tile)
                 {
                     break;
                 }
                 else
                 {
-                    TileBehaviour removedTile = tileChain[i];
+                    TileBehaviour removedTile = TileChain[i];
                     removedTile.SelectionBehaviour.SetSelectedState(false);
-                    tileChain.RemoveAt(i);
+                    TileChain.RemoveAt(i);
 
                     OnTileRemovedFromChain?.Invoke(removedTile);
                 }
@@ -88,32 +88,33 @@ public class TileChainManager : Singleton<TileChainManager>
     public void ConsumeChain()
     {
         // Validation checks
-        Debug.Assert(tileChain != null, "Tile chain is null");
+        Debug.Assert(TileChain != null, "Tile chain is null");
 
-        if (tileChain.Count < 3)
+        // Cancel the chain if its to short, trigger the consume and destroy methods for the tiles with the set delays
+        if (TileChain.Count < 3)
         {
-            OnTileChainFailed?.Invoke(tileChain.ToArray());
+            OnTileChainFailed?.Invoke(TileChain.ToArray());
             ClearChain();
         }
         else
         {
-            for (int i = 0; i < tileChain.Count; i++)
+            for (int i = 0; i < TileChain.Count; i++)
             {
                 if (tileConsumptionInterval == 0)
                 {
-                    tileChain[i].ConsumeTile();
-                    tileChain[i].DestroyTile();
+                    TileChain[i].ConsumeTile();
+                    TileChain[i].DestroyTile();
                 }
                 else
                 {
-                    tileChain[i].Invoke("ConsumeTile", i * tileConsumptionInterval);
-                    tileChain[i].Invoke("DestroyTile", (i * tileConsumptionInterval) + tileDestructionDelay);
+                    TileChain[i].Invoke("ConsumeTile", i * tileConsumptionInterval);
+                    TileChain[i].Invoke("DestroyTile", (i * tileConsumptionInterval) + tileDestructionDelay);
                 }
             }
 
-            Invoke("FireTileChainDestroyedEvent", (tileChain.Count * tileConsumptionInterval) + tileDestructionDelay + 0.02f);
+            Invoke("FireTileChainDestroyedEvent", (TileChain.Count * tileConsumptionInterval) + tileDestructionDelay + 0.02f);
 
-            OnTileChainConsumed?.Invoke(tileChain.ToArray());
+            OnTileChainConsumed?.Invoke(TileChain.ToArray());
 
             ClearChain();
         }
@@ -126,10 +127,10 @@ public class TileChainManager : Singleton<TileChainManager>
 
     private void ClearChain()
     {
-        for (int i = 0; i < tileChain.Count; i++)
-            tileChain[i].SelectionBehaviour.SetSelectedState(false);
+        for (int i = 0; i < TileChain.Count; i++)
+            TileChain[i].SelectionBehaviour.SetSelectedState(false);
 
-        tileChain.Clear();
+        TileChain.Clear();
     }
 
 }

@@ -14,7 +14,7 @@ public class MovesTrackerBehaviour : MonoBehaviour
 
     private void Start()
     {
-        TileChainManager.Instance.OnTileChainConsumed.AddListener(DecrementMovesCounter);
+        TileChainManager.Instance.OnTileChainDestroyed.AddListener(DecrementMovesCounter);
 
         movesRemaining = GameCoordinator.Instance.ActiveLevel.moveLimit;
         MovesTrackerUI.Instance.SetMovesRemaining(movesRemaining);
@@ -23,14 +23,13 @@ public class MovesTrackerBehaviour : MonoBehaviour
     /// <summary>
     /// Decrement the remaining moves and update the UI
     /// </summary>
-    /// <param name="tilechain"></param>
-    private void DecrementMovesCounter(TileBehaviour[] tilechain)
+    private void DecrementMovesCounter()
     {
         movesRemaining--;
 
         MovesTrackerUI.Instance.SetMovesRemaining(movesRemaining);
 
-        if (movesRemaining <= 0)
+        if (movesRemaining <= 0 && TileQuotaBehaviour.Instance.CheckAllQuotasComplete() == false)
         {
             OnMovesExhausted?.Invoke();
         }
