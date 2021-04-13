@@ -24,6 +24,13 @@ public class TileChainManager : Singleton<TileChainManager>
         TileChain = new List<TileBehaviour>();
     }
 
+    // Consume the current chain we've just dragged and released
+    private void Update()
+    {
+        if (TileGridManager.Instance.gridLocked == false && Input.GetMouseButtonUp(0))
+            ConsumeChain();
+    }
+
     // Start a new tile chain with the passed tile
     public void StartNewChainFromTile(TileBehaviour tile)
     {

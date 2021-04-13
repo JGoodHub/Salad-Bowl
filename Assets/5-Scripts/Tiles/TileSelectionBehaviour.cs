@@ -22,13 +22,6 @@ public class TileSelectionBehaviour : MonoBehaviour
             TileChainManager.Instance.StartNewChainFromTile(ParentBehaviour);
     }
 
-    // Consume the current chain we've just dragged
-    private void OnMouseUp()
-    {
-        if (TileGridManager.Instance.gridLocked == false)
-            TileChainManager.Instance.ConsumeChain();
-    }
-
     // Add or remove this tile based on its selected status
     private void OnMouseEnter()
     {
